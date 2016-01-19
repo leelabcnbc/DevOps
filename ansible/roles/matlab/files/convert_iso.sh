@@ -13,7 +13,7 @@ for FILE in R2012b_UNIX R2014a_UNIX_original; do
     ls ${MOUNT_DIR}
     echo "tar.gz file ${FILE}..."
     tar -czvf ${FILE}.tar.gz -C ${MOUNT_DIR} .
-    # when untar, use tar xvpf xxx.iso -C destination to keep permissions (p flag)
+    # when untar, use tar xvpf xxx.tar.gz -C destination to keep permissions (p flag)
     echo "done."
     umount ${MOUNT_DIR}
 done

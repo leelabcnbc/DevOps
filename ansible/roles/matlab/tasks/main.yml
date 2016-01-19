@@ -31,38 +31,64 @@
     - "{{ matlab_filelist_dest }}"
   when: not (matlab_installed | bool)
 
-# do one additional hacking for 2014a.
+
 
 
 
 - name: modify installed products
   lineinfile:
     dest: /tmp/installer_input.txt
-    regexp: "#product\.{{ item }}"
-    line: "product\.{{ item }}"
+    regexp: "#product\\.{{ item }}"
+    line: "product.{{ item }}"
     backup: no
     state: present
   with_items: "{{matlab_product_list}}"
+  when: not (matlab_installed | bool)
 
 
 
-# - name: activate matlab normally (R2012a)
-#   command: "/usr/local/MATLAB/{{ matlab_version }}/bin/activate_matlab.sh -propertiesFile /tmp/activate.ini"
-#   become: True
-#   when: matlab_version == "R2012b" and (not  (matlab_installed | bool))
+- name: remove the folder for extraction.
+  file:
+    path: /tmp/matlab_iso
+    state: absent
+  become: True
 
-# - name: activate matlab by file substituion (R2014a)
-#   command: "cp /tmp/libmwservices.so /usr/local/MATLAB/{{ matlab_version }}/bin/glnxa64"
-#   become: True
-#   when: matlab_version == "R2014a" and (not  (matlab_installed | bool))
+- name: create the folder for extraction.
+  file:
+    path: /tmp/matlab_iso
+    state: directory
+    mode: 0755
 
+- name: extract installer
+  command: "tar xvpf {{ matlab_installer_dir }}/R2012b_UNIX.tar.gz -C /tmp/matlab_iso"
+  become: True
 
+# TODO do one additional hacking for 2014a.
 
+- name: run installer
+  command: "matlab_iso/install -inputFile /tmp/installer_input.txt"
+  become: True
 
-# - name: remove all related files.
-#   file:
-#     path: /tmp/{{ item }}
-#     state: absent
-#   with_items: "{{ matlab_filelist_dest }}"
-#   when: not  (matlab_installed | bool)
+- name: remove the folder for extraction.
+  file:
+    path: /tmp/matlab_iso
+    state: absent
+  become: True
+
+- name: activate matlab normally (R2012a)
+  command: "/usr/local/MATLAB/{{ matlab_version }}/bin/activate_matlab.sh -propertiesFile /tmp/activate.ini"
+  become: True
+  when: matlab_version == "R2012b" and (not  (matlab_installed | bool))
+
+- name: activate matlab by file substituion (R2014a)
+  command: "cp /tmp/libmwservices.so /usr/local/MATLAB/{{ matlab_version }}/bin/glnxa64"
+  become: True
+  when: matlab_version == "R2014a" and (not  (matlab_installed | bool))
+
+- name: remove all related files.
+  file:
+    path: /tmp/{{ item }}
+    state: absent
+  with_items: "{{ matlab_filelist_dest }}"
+  when: not  (matlab_installed | bool)
 
