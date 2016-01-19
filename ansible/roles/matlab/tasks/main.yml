@@ -21,7 +21,6 @@
   when: matlab_version == "R2014a"
 
 
-# START common for all versions. 
 - name: copy all related files.
   copy:
     src: "{{ item.0 }}"
@@ -30,48 +29,40 @@
   with_together:
     - "{{ matlab_filelist_src }}"
     - "{{ matlab_filelist_dest }}"
-  changed_when: not  (matlab_installed | bool)
+  when: not (matlab_installed | bool)
 
-
-- name: copy matlab install script.
-  template:
-    src: install_matlab.j2
-    dest: /tmp/install_matlab
-    mode: "a+x"
-  when: not  (matlab_installed | bool)
-
-- name: run matlab install script
-  command: "/tmp/install_matlab"
-  become: True
-  when: not  (matlab_installed | bool)
-
-- name: remove matlab install script.
-  file:
-    path: /tmp/install_matlab
-    state: absent
-  when: not  (matlab_installed | bool)
-# END common for all versions. 
+# do one additional hacking for 2014a.
 
 
 
+- name: modify installed products
+  lineinfile:
+    dest: /tmp/installer_input.txt
+    regexp: "#product\.{{ item }}"
+    line: "product\.{{ item }}"
+    backup: no
+    state: present
+  with_items: "{{matlab_product_list}}"
 
-- name: activate matlab normally (R2012a)
-  command: "/usr/local/MATLAB/{{ matlab_version }}/bin/activate_matlab.sh -propertiesFile /tmp/activate.ini"
-  become: True
-  when: matlab_version == "R2012b"
 
-- name: activate matlab by file substituion (R2014a)
-  command: "cp /tmp/libmwservices.so /usr/local/MATLAB/{{ matlab_version }}/bin/glnxa64"
-  become: True
-  when: matlab_version == "R2014a"
+
+# - name: activate matlab normally (R2012a)
+#   command: "/usr/local/MATLAB/{{ matlab_version }}/bin/activate_matlab.sh -propertiesFile /tmp/activate.ini"
+#   become: True
+#   when: matlab_version == "R2012b" and (not  (matlab_installed | bool))
+
+# - name: activate matlab by file substituion (R2014a)
+#   command: "cp /tmp/libmwservices.so /usr/local/MATLAB/{{ matlab_version }}/bin/glnxa64"
+#   become: True
+#   when: matlab_version == "R2014a" and (not  (matlab_installed | bool))
 
 
 
 
-- name: remove all related files.
-  file:
-    path: /tmp/{{ item }}
-    state: absent
-  with_items: "{{ matlab_filelist_dest }}"
-  changed_when: not  (matlab_installed | bool)
+# - name: remove all related files.
+#   file:
+#     path: /tmp/{{ item }}
+#     state: absent
+#   with_items: "{{ matlab_filelist_dest }}"
+#   when: not  (matlab_installed | bool)
 
