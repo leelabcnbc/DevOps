@@ -1,7 +1,7 @@
 ---
 - name: check if MATLAB is installed (1)
   stat:
-    path: /usr/local/MATLAB/{{ matlab_version }}
+    path: "/usr/local/MATLAB/{{ matlab_version }}"
   register: matlab_installed
 
 - name: check if MATLAB is installed (2)
@@ -12,83 +12,81 @@
   set_fact:
     matlab_filelist_src: [ "activate_{{ matlab_version }}.ini", "installer_input_{{ matlab_version }}.txt", "license_standalone_{{ matlab_version }}.dat" ]
     matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license_standalone.dat" ]
+    matlab_hacking_command_list: [] # no hacking
+    matlab_activation_command: "/usr/local/MATLAB/R2012b/bin/activate_matlab.sh -propertiesFile /tmp/activate.ini"
   when: matlab_version == "R2012b"
 
 - name: set list of license / crack files to copy for R2014a.
   set_fact:
-    matlab_filelist_src: [ "activate_{{ matlab_version }}.ini", "installer_input_{{ matlab_version }}.txt", "license_standalone_{{ matlab_version }}.lic", "libmwservices_{{ matlab_version }}.so" ]
-    matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license_standalone.lic", "libmwservices.so" ]
+    matlab_filelist_src: [ "activate_{{ matlab_version }}.ini", "installer_input_{{ matlab_version }}.txt", "license_standalone_{{ matlab_version }}.lic", "libmwservices_{{ matlab_version }}.so", "install_{{ matlab_version }}.jar" ]
+    matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license_standalone.lic", "libmwservices.so", "install.jar" ]
+    matlab_hacking_command_list: [ "cp /tmp/install.jar /tmp/matlab_iso/java/jar/install.jar" ] # copy install.jar
+    matlab_activation_command: "cp /tmp/libmwservices.so /usr/local/MATLAB/R2014a/bin/glnxa64"
   when: matlab_version == "R2014a"
 
+- block:  # these must finish all together in one shot.
+  - name: copy all related files.
+    copy:
+      src: "{{ item.0 }}"
+      dest: /tmp/{{ item.1 }}
+      force: yes
+    with_together:
+      - "{{ matlab_filelist_src }}"
+      - "{{ matlab_filelist_dest }}"
 
-- name: copy all related files.
-  copy:
-    src: "{{ item.0 }}"
-    dest: /tmp/{{ item.1 }}
-    force: yes
-  with_together:
-    - "{{ matlab_filelist_src }}"
-    - "{{ matlab_filelist_dest }}"
-  when: not (matlab_installed | bool)
+  - name: modify installed products
+    lineinfile:
+      dest: /tmp/installer_input.txt
+      regexp: "#product\\.{{ item }}"
+      line: "product.{{ item }}"
+      backup: no
+      state: present
+    with_items: "{{matlab_product_list}}"
 
+  - name: remove the folder for extraction.
+    file:
+      path: /tmp/matlab_iso
+      state: absent
+    become: True
 
+  - name: create the folder for extraction.
+    file:
+      path: /tmp/matlab_iso
+      state: directory
+      mode: 0755
 
+  - name: extract installer
+    command: "tar xvpf {{ matlab_installer_dir }}/R2012b_UNIX.tar.gz -C /tmp/matlab_iso"
+    become: True
 
+  - name: pre install hacking
+    command: "{{ item }}"
+    with_items: "{{matlab_hacking_command_list}}"
+    become: True
 
-- name: modify installed products
-  lineinfile:
-    dest: /tmp/installer_input.txt
-    regexp: "#product\\.{{ item }}"
-    line: "product.{{ item }}"
-    backup: no
-    state: present
-  with_items: "{{matlab_product_list}}"
-  when: not (matlab_installed | bool)
+  - name: run installer
+    command: "/tmp/matlab_iso/install -inputFile /tmp/installer_input.txt"
+    become: True
 
+  - name: remove the folder for extraction.
+    file:
+      path: /tmp/matlab_iso
+      state: absent
+    become: True
 
+  - name: activate matlab
+    command: "{{ matlab_activation_command }}"
+    become: True
 
-- name: remove the folder for extraction.
-  file:
-    path: /tmp/matlab_iso
-    state: absent
-  become: True
-
-- name: create the folder for extraction.
-  file:
-    path: /tmp/matlab_iso
-    state: directory
-    mode: 0755
-
-- name: extract installer
-  command: "tar xvpf {{ matlab_installer_dir }}/R2012b_UNIX.tar.gz -C /tmp/matlab_iso"
-  become: True
-
-# TODO do one additional hacking for 2014a.
-
-- name: run installer
-  command: "matlab_iso/install -inputFile /tmp/installer_input.txt"
-  become: True
-
-- name: remove the folder for extraction.
-  file:
-    path: /tmp/matlab_iso
-    state: absent
-  become: True
-
-- name: activate matlab normally (R2012a)
-  command: "/usr/local/MATLAB/{{ matlab_version }}/bin/activate_matlab.sh -propertiesFile /tmp/activate.ini"
-  become: True
-  when: matlab_version == "R2012b" and (not  (matlab_installed | bool))
-
-- name: activate matlab by file substituion (R2014a)
-  command: "cp /tmp/libmwservices.so /usr/local/MATLAB/{{ matlab_version }}/bin/glnxa64"
-  become: True
-  when: matlab_version == "R2014a" and (not  (matlab_installed | bool))
-
-- name: remove all related files.
-  file:
-    path: /tmp/{{ item }}
-    state: absent
-  with_items: "{{ matlab_filelist_dest }}"
-  when: not  (matlab_installed | bool)
-
+  - name: remove all related files.
+    file:
+      path: "/tmp/{{ item }}"
+      state: absent
+    with_items: "{{ matlab_filelist_dest }}"
+    become: True
+- rescue:  # remove installed things if something bad happens.
+  - name: remove partially installed dir
+    file:
+      path: "/usr/local/MATLAB/{{ matlab_version }}"
+      state: absent
+    become: True
