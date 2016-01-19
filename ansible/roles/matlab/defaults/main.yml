@@ -1,0 +1,3 @@
+---
+matlab_version: R2012b # can be one of R2012b, R2014a, and (in the future) 2015b.
+matlab_iso_dir: /opt/DevOps/ansible/roles/matlab/files # the folder to look for ISO (now maybe tar) files.

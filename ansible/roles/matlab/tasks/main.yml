@@ -1,0 +1,77 @@
+---
+- name: check if MATLAB is installed (1)
+  stat:
+    path: /usr/local/MATLAB/{{ matlab_version }}
+  register: matlab_installed
+
+- name: check if MATLAB is installed (2)
+  set_fact:
+    matlab_installed: "{{ matlab_installed.stat.isdir is defined and matlab_installed.stat.isdir | bool }}"
+
+- name: set list of license / crack files to copy for R2012b.
+  set_fact:
+    matlab_filelist_src: [ "activate_{{ matlab_version }}.ini", "installer_input_{{ matlab_version }}.txt", "license_standalone_{{ matlab_version }}.dat" ]
+    matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license_standalone.dat" ]
+  when: matlab_version == "R2012b"
+
+- name: set list of license / crack files to copy for R2014a.
+  set_fact:
+    matlab_filelist_src: [ "activate_{{ matlab_version }}.ini", "installer_input_{{ matlab_version }}.txt", "license_standalone_{{ matlab_version }}.lic", "libmwservices_{{ matlab_version }}.so" ]
+    matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license_standalone.lic", "libmwservices.so" ]
+  when: matlab_version == "R2014a"
+
+
+# START common for all versions. 
+- name: copy all related files.
+  copy:
+    src: "{{ item.0 }}"
+    dest: /tmp/{{ item.1 }}
+    force: yes
+  with_together:
+    - "{{ matlab_filelist_src }}"
+    - "{{ matlab_filelist_dest }}"
+  changed_when: not  (matlab_installed | bool)
+
+
+- name: copy matlab install script.
+  template:
+    src: install_matlab.j2
+    dest: /tmp/install_matlab
+    mode: "a+x"
+  when: not  (matlab_installed | bool)
+
+- name: run matlab install script
+  command: "/tmp/install_matlab"
+  become: True
+  when: not  (matlab_installed | bool)
+
+- name: remove matlab install script.
+  file:
+    path: /tmp/install_matlab
+    state: absent
+  when: not  (matlab_installed | bool)
+# END common for all versions. 
+
+
+
+
+- name: activate matlab normally (R2012a)
+  command: "/usr/local/MATLAB/{{ matlab_version }}/bin/activate_matlab.sh -propertiesFile /tmp/activate.ini"
+  become: True
+  when: matlab_version == "R2012b"
+
+- name: activate matlab by file substituion (R2014a)
+  command: "cp /tmp/libmwservices.so /usr/local/MATLAB/{{ matlab_version }}/bin/glnxa64"
+  become: True
+  when: matlab_version == "R2014a"
+
+
+
+
+- name: remove all related files.
+  file:
+    path: /tmp/{{ item }}
+    state: absent
+  with_items: "{{ matlab_filelist_dest }}"
+  changed_when: not  (matlab_installed | bool)
+

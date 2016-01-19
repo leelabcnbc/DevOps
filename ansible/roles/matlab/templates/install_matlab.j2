@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mount -o loop {{ matlab_iso_dir }}/{{ matlab_version }}_UNIX.iso /mnt/{{ misc_iso_mount_dir }}
+/mnt/{{ misc_iso_mount_dir }}/install -inputFile /tmp/installer_input.txt
+umount /mnt/{{ misc_iso_mount_dir }}
