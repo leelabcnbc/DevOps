@@ -10,18 +10,20 @@
 
 - name: set list of license / crack files to copy for R2012b.
   set_fact:
-    matlab_filelist_src: [ "activate_{{ matlab_version }}.ini", "installer_input_{{ matlab_version }}.txt", "license_standalone_{{ matlab_version }}.dat" ]
+    matlab_filelist_src: [ "activate_R2012b.ini", "installer_input_R2012b.txt", "license_standalone_R2012b.dat" ]
     matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license_standalone.dat" ]
     matlab_hacking_command_list: [] # no hacking
     matlab_activation_command: "/usr/local/MATLAB/R2012b/bin/activate_matlab.sh -propertiesFile /tmp/activate.ini"
+    matlab_installer_name: "R2012b_UNIX"
   when: matlab_version == "R2012b"
 
 - name: set list of license / crack files to copy for R2014a.
   set_fact:
-    matlab_filelist_src: [ "activate_{{ matlab_version }}.ini", "installer_input_{{ matlab_version }}.txt", "license_standalone_{{ matlab_version }}.lic", "libmwservices_{{ matlab_version }}.so", "install_{{ matlab_version }}.jar" ]
+    matlab_filelist_src: [ "activate_R2014a.ini", "installer_input_R2014a.txt", "license_standalone_R2014a.lic", "libmwservices_R2014a.so", "install_R2014a.jar" ]
     matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license_standalone.lic", "libmwservices.so", "install.jar" ]
     matlab_hacking_command_list: [ "cp /tmp/install.jar /tmp/matlab_iso/java/jar/install.jar" ] # copy install.jar
     matlab_activation_command: "cp /tmp/libmwservices.so /usr/local/MATLAB/R2014a/bin/glnxa64"
+    matlab_installer_name: "R2014a_UNIX_original"
   when: matlab_version == "R2014a"
 
 - block:  # these must finish all together in one shot.
@@ -56,7 +58,7 @@
       mode: 0755
 
   - name: extract installer
-    command: "tar xvpf {{ matlab_installer_dir }}/R2012b_UNIX.tar.gz -C /tmp/matlab_iso"
+    command: "tar xvpf {{ matlab_installer_dir }}/{{ matlab_installer_name }}.tar.gz -C /tmp/matlab_iso"
     become: True
 
   - name: pre install hacking
@@ -83,8 +85,8 @@
       path: "/tmp/{{ item }}"
       state: absent
     with_items: "{{ matlab_filelist_dest }}"
-    become: True
-- rescue:  # remove installed things if something bad happens.
+  when: not (matlab_installed | bool)
+  rescue:  # remove installed things if something bad happens.
   - name: remove partially installed dir
     file:
       path: "/usr/local/MATLAB/{{ matlab_version }}"
