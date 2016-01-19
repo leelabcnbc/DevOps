@@ -1,0 +1,7 @@
+---
+- name: install a minimal version of matlab r2012b.
+  hosts: all
+  roles:
+    - role: matlab
+      matlab_version: R2012b
+      matlab_product_list: [ 'MATLAB' ]
