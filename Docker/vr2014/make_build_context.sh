@@ -26,8 +26,8 @@ git archive --format=tar.gz 28e0f15cf4bb3791a26ee385b3504acb158de061 > /tmp/repo
 cd "${CURRENT_DIR}"
 mv /tmp/repo.tar.gz "${EXPORT_DIR}/repo.tar.gz"
 
-echo "copy Dockerfile"
-cp Dockerfile "${EXPORT_DIR}"
+echo "copy Dockerfile and build script"
+cp Dockerfile build_script.sh "${EXPORT_DIR}"
 echo "copy playbook"
 cp playbook_vr2014.yml "${EXPORT_DIR}"
 

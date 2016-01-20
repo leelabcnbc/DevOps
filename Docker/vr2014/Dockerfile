@@ -8,49 +8,24 @@ MAINTAINER Yimeng Zhang <zym1010@gmail.com>
 
 # install Ansible, using code from https://hub.docker.com/r/williamyeh/ansible/
 #MAINTAINER William Yeh <william.pjyeh@gmail.com>
-RUN echo "===> Adding Ansible's prerequisites..."   && \
-    apt-get update -y            && \
-    DEBIAN_FRONTEND=noninteractive  \
-        apt-get install --no-install-recommends -y -q  \
-                build-essential                        \
-                python-pip python-dev python-yaml      \
-                libxml2-dev libxslt1-dev zlib1g-dev    \
-                git                                 && \
-    pip install --upgrade pyyaml jinja2 pycrypto    && \
+
+RUN echo "===> Adding Ansible's PPA..."  && \
+    echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" | tee /etc/apt/sources.list.d/ansible.list           && \
+    echo "deb-src http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" | tee -a /etc/apt/sources.list.d/ansible.list    && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 7BB9C367    && \
+    DEBIAN_FRONTEND=noninteractive  apt-get update  && \
     \
     \
-    echo "===> Downloading Ansible's source tree..."            && \
-    git clone git://github.com/ansible/ansible.git --recursive  && \
+    echo "===> Installing Ansible..."  && \
+    apt-get install -y ansible  && \
     \
     \
-    echo "===> Compiling Ansible..."      && \
-    cd ansible                            && \
-    bash -c 'source ./hacking/env-setup'  && \
-    \
-    \
-    echo "===> Moving useful Ansible stuff to /opt/ansible ..."  && \
-    mkdir -p /opt/ansible                && \
-    mv /ansible/bin   /opt/ansible/bin   && \
-    mv /ansible/lib   /opt/ansible/lib   && \
-    mv /ansible/docs  /opt/ansible/docs  && \
-    rm -rf /ansible                      && \
-    \
-    \
-    echo "===> Clean up..."                                         && \
-    apt-get remove -y --auto-remove \
-            build-essential python-pip python-dev git               && \
-    apt-get clean                                                   && \
-    rm -rf /var/lib/apt/lists/*                                     && \
+    echo "===> Removing Ansible PPA..."  && \
+    rm -rf /var/lib/apt/lists/*  /etc/apt/sources.list.d/ansible.list  && \
     \
     \
     echo "===> Adding hosts for convenience..."  && \
-    mkdir -p /etc/ansible                        && \
     echo '[local]\nlocalhost\n' > /etc/ansible/hosts
-
-
-ENV PATH        /opt/ansible/bin:$PATH
-ENV PYTHONPATH  /opt/ansible/lib:$PYTHONPATH
-ENV MANPATH     /opt/ansible/docs/man:$MANPATH
 
 # copy the git repo into /tmp.
 COPY repo.tar.gz /tmp
@@ -61,7 +36,10 @@ COPY files /tmp/DevOps/ansible/roles/matlab/files
 # copy playbook
 COPY playbook_vr2014.yml /tmp/DevOps/ansible
 # run Ansible playbook and remove everything.
-RUN ansible-playbook -c local /tmp/DevOps/ansible/playbook_vr2014.yml && rm -rf /tmp/DevOps
+# plus, do some post patching of the container, since MATLAB requires many things.
+RUN ansible-playbook -c local /tmp/DevOps/ansible/playbook_vr2014.yml && rm -rf /tmp/DevOps \
+    apt-get update && apt-get install -y libxt6 libxmu6 \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # default command: run bash
 CMD ["/bin/bash"]
