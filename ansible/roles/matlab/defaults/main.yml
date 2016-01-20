@@ -1,4 +1,4 @@
 ---
 matlab_version: R2012b # can be one of R2012b, R2014a, and (in the future) 2015b.
-matlab_installer_dir: /opt/DevOps/ansible/roles/matlab/files # the folder to look for MATLAB tar.gz files.
+matlab_installer_dir: /tmp/DevOps/ansible/roles/matlab/files # the folder to look for MATLAB tar.gz files.
 matlab_product_list: [] # if empty, install everything permitted by the license; otherwise, install only things in it.
