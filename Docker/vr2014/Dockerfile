@@ -53,7 +53,15 @@ ENV PYTHONPATH  /opt/ansible/lib:$PYTHONPATH
 ENV MANPATH     /opt/ansible/docs/man:$MANPATH
 
 # copy the git repo into /tmp.
-
+COPY repo.tar.gz /tmp
+# expand git repo and remove tar.
+RUN mkdir /tmp/DevOps && tar -xvf /tmp/repo.tar.gz -C /tmp/DevOps && rm /tmp/repo.tar.gz
+# copy MATLAB files
+COPY files /tmp/DevOps/ansible/roles/matlab/files
+# copy playbook
+COPY playbook_vr2014.yml /tmp/DevOps/ansible
+# run Ansible playbook and remove everything.
+RUN ansible-playbook -c local /tmp/DevOps/ansible/playbook_vr2014.yml && rm -rf /tmp/DevOps
 
 # default command: run bash
 CMD ["/bin/bash"]
