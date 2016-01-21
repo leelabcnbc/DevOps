@@ -35,10 +35,12 @@ RUN mkdir /tmp/DevOps && tar -xvf /tmp/repo.tar.gz -C /tmp/DevOps && rm /tmp/rep
 COPY files /tmp/DevOps/ansible/roles/matlab/files
 # copy playbook
 COPY playbook_vr2014.yml /tmp/DevOps/ansible
+COPY vr2014_figure_script_R_install_packages.R /tmp
 # run Ansible playbook, install R packages for my code, remove everything inside tmp dir
 # plus, clean cache.
 RUN ansible-playbook -c local /tmp/DevOps/ansible/playbook_vr2014.yml && rm -rf /tmp/DevOps && \
-    Rscript vr2014_figure_script_R_install_packages.R && \
+    Rscript /tmp/vr2014_figure_script_R_install_packages.R && \
+    rm /tmp/vr2014_figure_script_R_install_packages.R && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # default command: run bash

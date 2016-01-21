@@ -17,19 +17,19 @@ fi
 
 # copy the specific git repo into that folder.
 echo "copy git repo".
-CURRENT_DIR=$(PWD)
+CURRENT_DIR=$(pwd)
 # go to root of the repo, from http://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command.
 ROOT_DIR=$(git rev-parse --show-toplevel)
 cd "${ROOT_DIR}"
-git archive --format=tar.gz 28e0f15cf4bb3791a26ee385b3504acb158de061 > /tmp/repo.tar.gz
+git archive --format=tar.gz 2390d26a94171d60185614e3d52dc5885d71de58 > /tmp/repo.tar.gz
 # I put it first to tmp to solve the case where EXPORT_DIR is relative.
 cd "${CURRENT_DIR}"
 mv /tmp/repo.tar.gz "${EXPORT_DIR}/repo.tar.gz"
 
 echo "copy Dockerfile and build script"
 cp Dockerfile build_script.sh "${EXPORT_DIR}"
-echo "copy playbook"
-cp playbook_vr2014.yml "${EXPORT_DIR}"
+echo "copy playbook and related scripts"
+cp playbook_vr2014.yml vr2014_figure_script_R_install_packages.R "${EXPORT_DIR}"
 
 echo "copy matlab files."
 # copy MATLAB 2014a files. I assume that you are in the same directory as this shell file.
