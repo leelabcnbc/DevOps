@@ -8,6 +8,18 @@
   set_fact:
     matlab_installed: "{{ matlab_installed.stat.isdir is defined and matlab_installed.stat.isdir | bool }}"
 
+# this would only be useful on Docker containers without VNC,
+# as it seems that the full server version (14.04) of Ubuntu has these two packages.
+- name: install libraries required
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present # as long as they are there, it's fine.
+  with_items:
+    - libxt6
+    - libxmu6
+  become: True
+
 - name: set list of license / crack files to copy for R2012b.
   set_fact:
     matlab_filelist_src: [ "activate_R2012b.ini", "installer_input_R2012b.txt", "license_standalone_R2012b.dat" ]

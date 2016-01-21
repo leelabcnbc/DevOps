@@ -35,10 +35,10 @@ RUN mkdir /tmp/DevOps && tar -xvf /tmp/repo.tar.gz -C /tmp/DevOps && rm /tmp/rep
 COPY files /tmp/DevOps/ansible/roles/matlab/files
 # copy playbook
 COPY playbook_vr2014.yml /tmp/DevOps/ansible
-# run Ansible playbook and remove everything.
-# plus, do some post patching of the container, since MATLAB requires many things.
-RUN ansible-playbook -c local /tmp/DevOps/ansible/playbook_vr2014.yml && rm -rf /tmp/DevOps \
-    apt-get update && apt-get install -y libxt6 libxmu6 \
+# run Ansible playbook, install R packages for my code, remove everything inside tmp dir
+# plus, clean cache.
+RUN ansible-playbook -c local /tmp/DevOps/ansible/playbook_vr2014.yml && rm -rf /tmp/DevOps && \
+    Rscript vr2014_figure_script_R_install_packages.R && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # default command: run bash

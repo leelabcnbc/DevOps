@@ -8,6 +8,5 @@
     - role: matlab
       matlab_version: R2014a
       matlab_product_list: [ 'MATLAB', 'Parallel_Computing_Toolbox', 'Statistics_Toolbox', 'Image_Processing_Toolbox' ]
-    # this is required for R installation.
-    - role: developer
+    - role: r_language
 

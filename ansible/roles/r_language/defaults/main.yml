@@ -1,0 +1,6 @@
+---
+r_language_repo_url: http://lib.stat.cmu.edu/R/CRAN/bin/linux/ubuntu
+r_language_repo_delete_url: http://lib.stat.cmu.edu/R/CRAN/bin/linux/ubuntu
+r_language_repo_delete_bool: False
+r_language_key_server: keyserver.ubuntu.com
+r_language_key_id: "E084DAB9"

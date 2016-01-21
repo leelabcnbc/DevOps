@@ -1,0 +1,39 @@
+---
+- name: install dependency for Ansible's apt_repository module.
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present # as long as they are there, it's fine.
+  with_items:
+    - python-apt
+  become: True
+
+- name: remove existing repo if needed
+  apt_repository:
+    repo: "deb {{ r_language_repo_delete_url }} trusty/"
+    state: absent
+  become: True
+  when: r_language_repo_delete_bool
+
+- name: add r repo.
+  apt_repository:
+    repo: "deb {{ r_language_repo_url }} trusty/"
+    state: present
+  become: True
+
+- name: add r repo key.
+  apt_key:
+    keyserver: "{{ r_language_key_server }}"
+    id: "{{ r_language_key_id }}" # must use string, otherwise it will complain "int() can't convert non-string with explicit base"
+    state: present
+  become: True
+
+- name: install r
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present # as long as they are there, it's fine.
+  with_items:
+    - r-base
+    - r-base-dev
+  become: True
