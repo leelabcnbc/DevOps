@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# add USER env variable. otherwise vncserver would fail.
+export USER=root
 # Remove VNC lock (if process already killed)
 rm /tmp/.X1-lock /tmp/.X11-unix/X1
 # Run VNC server with tail in the foreground
