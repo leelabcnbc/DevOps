@@ -1,0 +1,10 @@
+---
+- name: install all dependencies required for legacy sorting programs.
+  hosts: all
+  roles:
+    # install a MATLAB with minimal libraries to run the code.
+    - role: matlab
+      matlab_version: R2012b
+      # SpikeSort and SAC only need MATLAB. Great!
+      matlab_product_list: [ 'MATLAB' ]
+
