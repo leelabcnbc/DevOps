@@ -63,9 +63,10 @@ RUN mkdir /tmp/DevOps && tar -xvf /tmp/repo.tar.gz -C /tmp/DevOps && rm /tmp/rep
 COPY files /tmp/DevOps/ansible/roles/matlab/files
 # copy playbook
 COPY sorting_legacy.yml /tmp/DevOps/ansible
-# run Ansible playbook.
+# run Ansible playbook, clean up, and add MATLAB shortcut.
 RUN ansible-playbook -c local /tmp/DevOps/ansible/sorting_legacy.yml && rm -rf /tmp/DevOps && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    ln -s /usr/local/MATLAB/R2012b/bin/matlab /root/matlab_r2012b
 
 # default command: run bash
 CMD ["/bin/bash"]
