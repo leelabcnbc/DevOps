@@ -12,6 +12,5 @@ RUN apk --update add tzdata && \
     echo "Europe/Brussels" >  /etc/timezone && \
     rm -rf /tmp/* && rm -rf /var/cache/apk/*
 
-WORKDIR /srv/jekyll/
 # default command: run bash
 CMD ["/bin/bash"]
