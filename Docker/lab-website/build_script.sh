@@ -4,7 +4,7 @@ IMAGE_BUILD_NAME=leelabcnbc/lab-website
 
 # build image
 docker build -t ${IMAGE_BUILD_NAME} .
-# after this, I manually tar the /tmp/nodes_modules into node_modules.tar.gz.
+# after this (when using Dockerfile_old), I manually tar the /tmp/nodes_modules into node_modules.tar.gz.
 
 # run the container like this.
 # docker run --rm -v /vagrant:/srv/jekyll -it -p 4000:4000 leelabcnbc/lab-website
