@@ -9,7 +9,7 @@ MAINTAINER Yimeng Zhang <zym1010@gmail.com>
 RUN apk --update add tzdata && \
     npm install -g grunt-cli && \
     cp /usr/share/zoneinfo/Europe/Brussels /etc/localtime && \
-    echo "Europe/Brussels" >  /etc/timezone && apk del tzdata && \
+    echo "Europe/Brussels" >  /etc/timezone && \
     rm -rf /tmp/* && rm -rf /var/cache/apk/*
 
 WORKDIR /srv/jekyll/
