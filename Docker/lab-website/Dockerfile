@@ -6,12 +6,10 @@ MAINTAINER Yimeng Zhang <zym1010@gmail.com>
 
 # add timezone with http://wiki.alpinelinux.org/wiki/Setting_the_timezone (retrieved 2016-01-27)
 # setting (an arbitrary) timezone is important for the Jekyll's timezone setting to work (at least for 2.4 in my experience)
-RUN apk --update add tzdata && \
+# forget about it... all you need is tzdata.
+RUN apk --update add tzdata openssh rsync && \
     npm install -g grunt-cli && \
-    cp /usr/share/zoneinfo/Europe/Brussels /etc/localtime && \
-    echo "Europe/Brussels" >  /etc/timezone && apk del tzdata && \
     rm -rf /tmp/* && rm -rf /var/cache/apk/*
 
-WORKDIR /srv/jekyll/
 # default command: run bash
 CMD ["/bin/bash"]
