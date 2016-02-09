@@ -4,5 +4,5 @@
 FROM continuumio/miniconda
 MAINTAINER Yimeng Zhang <zym1010@gmail.com>
 
-COPY conda_lab-data-management.sh /tmp/
-RUN /tmp/conda_lab-data-management.sh && rm /tmp/conda_lab-data-management.sh
+COPY conda_stimulus_generation.sh /tmp/
+RUN /tmp/conda_stimulus_generation.sh && rm /tmp/conda_stimulus_generation.sh
