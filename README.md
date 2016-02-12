@@ -6,3 +6,5 @@ if possible, specify versions of numpy and scipy (I think specifying numpy is en
 
 * `python -c 'import numpy as np;np.test()'`
 * `python -c 'import scipy as sp;sp.test()'`
+
+Note that it seems it's required to install `build-essential` before you can pass all `scipy` tests.
