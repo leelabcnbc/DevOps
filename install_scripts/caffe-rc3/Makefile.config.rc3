@@ -47,8 +47,8 @@ BLAS := open
 # Custom (MKL/ATLAS/OpenBLAS) include and lib directories.
 # Leave commented to accept the defaults for your choice of BLAS
 # (which should work)!
-# BLAS_INCLUDE := /home/yimengzh_everyday/lib/OpenBLAS/include
-# BLAS_LIB := /home/yimengzh_everyday/lib/OpenBLAS/lib
+BLAS_INCLUDE := ${HOME}/lib/OpenBLAS/include
+BLAS_LIB := ${HOME}/lib/OpenBLAS/lib
 
 # Homebrew puts openblas in a directory that is not on the standard search path
 # BLAS_INCLUDE := $(shell brew --prefix openblas)/include
@@ -87,8 +87,9 @@ PYTHON_LIB := $(ANACONDA_HOME)/lib
 # WITH_PYTHON_LAYER := 1
 
 # Whatever else you find you need goes here.
-INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include 
-LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib
+# Yimeng: I did trick here to put BLAS related things in the front. this would make -lopenblas to link my own openblas instead of the one in the miniconda...
+INCLUDE_DIRS := $(BLAS_INCLUDE) $(PYTHON_INCLUDE) /usr/local/include
+LIBRARY_DIRS := $(BLAS_LIB) $(PYTHON_LIB) /usr/local/lib /usr/lib
 
 # If Homebrew is installed at a non standard location (for example your home directory) and you use it for general dependencies
 # INCLUDE_DIRS += $(shell brew --prefix)/include
