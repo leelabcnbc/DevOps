@@ -13,3 +13,4 @@ sh cuda_7.5.18_linux.run --silent --toolkit --samples --no-opengl-libs \
  --toolkitpath=${TOOLKITPATH} -samplespath=${SAMPLEPATH}
 
 echo "CUDA 7.5 has been installed under ${TOOLKITPATH}, sample at ${SAMPLEPATH}"
+echo "create a symlink at ${HOME}/cuda for convenience, as we usually only need one single CUDA toolkit"

@@ -1,1 +1,1 @@
-export PATH=/usr/local/cuda/bin:$PATH
+export PATH=${HOME}/cuda/bin:$PATH
