@@ -31,5 +31,5 @@ bash Miniconda2-latest-Linux-x86_64.sh -b -p ${INSTALL_PATH}
 # update conda silently with '-y'.
 ${INSTALL_PATH}/bin/conda update -y conda
 
-echo "for convenience, add 'export PATH=${INSTALL_PATH}/:\$PATH' under appropriate file, such as .bashrc or .profile"
+echo "for convenience, add 'export PATH=${INSTALL_PATH}/bin:\$PATH' under appropriate file, such as .bashrc or .profile"
 echo "do this by yourself, as this varies from system to system, and may break the existing system."
