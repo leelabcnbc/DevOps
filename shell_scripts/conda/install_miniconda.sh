@@ -22,14 +22,16 @@ if [ -e "${INSTALL_PATH}" ]; then
     exit 1
 fi
 
-# download latest one
-rm -rf ~/Miniconda2-latest-Linux-x86_64.sh
+# download a stable one, not latest, to prevent surprises.
+# follow <https://github.com/ReactionMechanismGenerator/RMG-tests/issues/18>
+INSTALLER='Miniconda2-4.0.5-Linux-x86_64.sh'
 cd ~
-wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+rm -rf ~/${INSTALLER}
+wget http://repo.continuum.io/miniconda/${INSTALLER}
 # do silent installation. However, no PATH is changed.
-bash Miniconda2-latest-Linux-x86_64.sh -b -p ${INSTALL_PATH}
+bash ${INSTALLER} -b -p ${INSTALL_PATH}
 # update conda silently with '-y'.
-${INSTALL_PATH}/bin/conda update -y conda
+#${INSTALL_PATH}/bin/conda update -y conda
 
 echo "for convenience, add 'export PATH=${INSTALL_PATH}/bin:\$PATH' under appropriate file, such as .bashrc or .profile"
 echo "do this by yourself, as this varies from system to system, and may break the existing system."
