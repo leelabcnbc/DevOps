@@ -4,6 +4,7 @@
 SOFTWARE_ROOT_PATH="${HOME}/software"  # this is for software source, not their destination.
 
 INSTALL_PATH="${HOME}/software/caffe-rc3"
+rm -rf "${INSTALL_PATH}"
 mkdir -p "${INSTALL_PATH}"
 # so we don't end up with caffe-rc3/caffe-rc3
 tar -xvzf "${SOFTWARE_ROOT_PATH}/caffe/caffe-rc3.tar.gz" --strip-components=1 -C "${INSTALL_PATH}"
