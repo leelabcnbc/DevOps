@@ -16,6 +16,8 @@ cd "${INSTALL_PATH}"
 . activate cafferc3
 # enable cuDNN v4 in the directory
 . ${DIR}/../../env_scripts/add_cudnn_v4.sh
+# try fixing LDFLAGS
+export LDFLAGS="-Wl,-rpath,${HOME}/miniconda2/envs/cafferc3/lib"
 
 make all -j12
 make test -j12
