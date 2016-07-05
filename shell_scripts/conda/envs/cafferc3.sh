@@ -11,9 +11,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 conda install --channel conda-forge --show-channel-urls \
     cython=0.24 opencv=2.4.12 \
     snappy=1.1.3 leveldb=1.18 lmdb=0.9.18 glog=0.3.4 gflags=2.1.2 \
-    protobuf=3.0.0b2.post2 networkx=1.11 scikit-image=0.12.3 \
+    libprotobuf=2.5.0 networkx=1.11 scikit-image=0.12.3 \
     pillow=3.2.0 pyyaml=3.11 boost=1.61.0 python-leveldb=0.193 \
     python-gflags=2.0
+# install a matching protobuf version.
+pip install protobuf==2.5.0
 
 # six is already installed, so skip.
 
