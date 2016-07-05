@@ -16,6 +16,8 @@ conda install --yes --channel conda-forge --show-channel-urls \
     python-gflags=2.0
 # install a matching protobuf version.
 # YOU SHOULD NOT install protobuf 3, at least not for libprotobuf, whose protoc will break RC3.
+# I think this is because somehow protobuf is not compatible with GCC 4.6,
+# since after I changed to GCC 4.9, it worked...
 pip install protobuf==2.5.0
 
 # six is already installed, so skip.
