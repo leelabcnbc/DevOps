@@ -16,6 +16,8 @@ cd "${INSTALL_PATH}"
 ${DIR}/../conda/envs/cafferc3.sh
 # activate cafferc3 env
 . activate cafferc3
+# install cuDNN v4 (can be done many times)
+${DIR}/../cuda/install_cudnn_v4.sh
 # enable cuDNN v4 in the directory
 . ${DIR}/../../env_scripts/add_cudnn_v4.sh
 # try fixing LDFLAGS for opencv, for some reason. Whatever...
