@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # should be changed to /data2/leelab in the future, for all common, but not public files.
-set -o nounset
-set -o errexit
+#set -o nounset
+#set -o errexit
 SOFTWARE_ROOT_PATH="${HOME}/software"  # this is for software source, not their destination.
 INSTALL_PATH="${HOME}/software/caffe-rc3"
 rm -rf "${INSTALL_PATH}"

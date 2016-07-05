@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -o nounset
+#set -o nounset
 set -o errexit
 # check number of arguments and determine where to install Miniconda.
 if [ $# -eq 1 ]; then

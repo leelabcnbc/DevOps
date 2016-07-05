@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -o nounset
+#set -o nounset  # well... this unset will propagate to scripted called...
 set -o errexit
 
 # Yimeng Zhang, 2016

@@ -2,7 +2,7 @@
 
 # Yimeng Zhang, 2016
 
-set -o nounset
+# set -o nounset
 set -o errexit
 
 if [ $# -le 1 ]; then
