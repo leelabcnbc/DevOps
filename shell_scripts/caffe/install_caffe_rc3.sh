@@ -12,13 +12,15 @@ cp "${DIR}/Makefile.config.rc3" "${INSTALL_PATH}/Makefile.config"
 
 cd "${INSTALL_PATH}"
 
+# install cafferc3 env
+${DIR}/../conda/envs/cafferc3.sh
 # activate cafferc3 env
 . activate cafferc3
 # enable cuDNN v4 in the directory
 . ${DIR}/../../env_scripts/add_cudnn_v4.sh
-# try fixing LDFLAGS
+# try fixing LDFLAGS for opencv, for some reason. Whatever...
 export LDFLAGS="-Wl,-rpath,${HOME}/miniconda2/envs/cafferc3/lib"
-
+sleep 5  # maybe it's good to do this for files to sync?
 make all -j12
 make test -j12
 make pycaffe
