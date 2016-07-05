@@ -88,8 +88,9 @@ PYTHON_LIB := $(ANACONDA_HOME)/lib
 
 # Whatever else you find you need goes here.
 # Yimeng: I did trick here to put BLAS related things in the front. this would make -lopenblas to link my own openblas instead of the one in the miniconda...
-INCLUDE_DIRS := $(BLAS_INCLUDE) $(PYTHON_INCLUDE) /usr/local/include
-LIBRARY_DIRS := $(BLAS_LIB) $(PYTHON_LIB) /usr/local/lib /usr/lib
+# remove system directories all together.
+INCLUDE_DIRS := $(BLAS_INCLUDE) $(PYTHON_INCLUDE)
+LIBRARY_DIRS := $(BLAS_LIB) $(PYTHON_LIB)
 
 # If Homebrew is installed at a non standard location (for example your home directory) and you use it for general dependencies
 # INCLUDE_DIRS += $(shell brew --prefix)/include

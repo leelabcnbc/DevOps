@@ -12,9 +12,11 @@ cp "${DIR}/Makefile.config.rc3" "${INSTALL_PATH}/Makefile.config"
 
 cd "${INSTALL_PATH}"
 
+# activate cafferc3 env
+. activate cafferc3
 # enable cuDNN v4 in the directory
 . ${DIR}/../../env_scripts/add_cudnn_v4.sh
 
-make all -j8
-make test -j8
+make all -j12
+make test -j12
 make pycaffe
