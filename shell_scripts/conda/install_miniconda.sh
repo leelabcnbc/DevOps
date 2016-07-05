@@ -3,7 +3,8 @@
 # Yimeng Zhang, 2016
 
 # Should work under Linux.
-
+set -o nounset
+set -o errexit
 # check number of arguments and determine where to install Miniconda.
 if [ $# -le 1 ]; then
     if [ $# -eq 0 ]; then

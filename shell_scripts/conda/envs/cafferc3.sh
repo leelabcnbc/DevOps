@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # Yimeng Zhang, 2016
-
+set -o nounset
+set -o errexit
 # create a default Python 2 environment for Caffe rc3
 # I really wanted to use clone, but somehow it's broken for packages from non-standard channels.
 # <https://github.com/conda/conda/issues/2633>

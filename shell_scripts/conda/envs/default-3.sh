@@ -24,6 +24,8 @@ conda create --yes --channel conda-forge --show-channel-urls -n ${ENV_NAME} \
     python=3 numpy=1.11.0 scipy=0.17.1 matplotlib=1.5.2\
     pandas=0.18.1 nose=1.3.7 notebook=4.2.1 h5py=2.6.0 openblas=0.2.18
 
+. activate "${ENV_NAME}"
+
 # then hack my own openblas...
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 "${DIR}/../../openblas/install_openblas_multithread.sh" /tmp/openblas
