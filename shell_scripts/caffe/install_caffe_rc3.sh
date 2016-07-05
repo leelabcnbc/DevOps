@@ -22,7 +22,8 @@ ${DIR}/../cuda/install_cudnn_v4.sh
 # enable cuDNN v4 in the directory
 . ${DIR}/../../env_scripts/add_cudnn_v4.sh
 # try fixing LDFLAGS for opencv, for some reason. Whatever...
-export LDFLAGS="-Wl,-rpath,${HOME}/miniconda2/envs/cafferc3/lib"
+# the problem of this is that it will ignore my blas... so add my blas stuff first!
+export LDFLAGS="-Wl,-rpath,${HOME}/lib/OpenBLAS/lib,${HOME}/miniconda2/envs/cafferc3/lib"
 sleep 5  # maybe it's good to do this for files to sync?
 make all -j12
 make test -j12
