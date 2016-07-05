@@ -4,3 +4,5 @@ root = ${HOME}/cuda
 device = gpu0
 floatX = float32
 force_device=True
+[blas]
+ldflags = -lopenblas
