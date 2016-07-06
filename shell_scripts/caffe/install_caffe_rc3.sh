@@ -21,9 +21,13 @@ ${DIR}/../conda/envs/cafferc3.sh
 ${DIR}/../cuda/install_cudnn_v4.sh
 # enable cuDNN v4 in the directory
 . ${DIR}/../../env_scripts/add_cudnn_v4.sh
-# try fixing LDFLAGS for opencv, for some reason. Whatever...
-# the problem of this is that it will ignore my blas... so add my blas stuff first!
-export LDFLAGS="-Wl,-rpath,${HOME}/lib/OpenBLAS/lib -Wl,-rpath,${HOME}/miniconda2/envs/cafferc3/lib"
+# try fixing dynamic linking for opencv's shared libraries (libpng, libjpeg, etc.),
+# since they are not available in standard locations.
+# the fact that ldd those opencv files can find the libraries just mean that
+# when using these programs as the main executable, they can be found?
+# check <https://github.com/conda-forge/opencv-feedstock/issues/19> for details.
+# add my blas stuff first, so that caffe will link to my blas in anyway.
+export LD_LIBRARY_PATH="${HOME}/lib/OpenBLAS/lib:${CONDA_ENV_PATH}/lib"
 sleep 5  # maybe it's good to do this for files to sync?
 make all -j12
 make test -j12
