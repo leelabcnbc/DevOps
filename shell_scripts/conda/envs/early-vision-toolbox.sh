@@ -21,5 +21,6 @@ fi
 . activate "${ENV_NAME}"
 # nope, since I assume you must have installed Caffe before...
 # ${DIR}/../cuda/install_cudnn_v4.sh
-# install spams
-conda install -c conda-forge python-spams=2.5
+# install spams, sklearn
+conda install --yes -c conda-forge python-spams=2.5 scikit-learn=0.17.1
+pip install imagen==2.0.1 joblib==0.9.4 
