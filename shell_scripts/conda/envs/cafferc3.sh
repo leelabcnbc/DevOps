@@ -8,8 +8,22 @@
 # <https://github.com/conda/conda/issues/2633>
 # from <http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in?page=1&tab=votes#tab-top>
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-"${DIR}/default.sh" cafferc3
-. activate cafferc3
+
+
+if [ $# -le 1 ]; then
+    if [ $# -eq 0 ]; then
+        ENV_NAME='cafferc3'
+    else
+        ENV_NAME=$1
+    fi
+else
+    echo "Usage: $0 [ENV_NAME]"
+    exit 1
+fi
+
+
+"${DIR}/default.sh" "${ENV_NAME}"
+. activate "${ENV_NAME}"
 conda install --yes --no-update-dependencies --channel conda-forge --show-channel-urls \
     cython=0.24 opencv=2.4.12 \
     snappy=1.1.3 leveldb=1.18 lmdb=0.9.18 glog=0.3.4 gflags=2.1.2 \
