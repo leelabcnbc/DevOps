@@ -2,7 +2,7 @@
 # should be changed to /data2/leelab in the future, for all common, but not public files.
 #set -o nounset
 #set -o errexit
-SOFTWARE_ROOT_PATH="${HOME}/software"  # this is for software source, not their destination.
+SOFTWARE_ROOT_PATH="/data2/leelab/software"  # this is for software source, not their destination.
 INSTALL_PATH="${HOME}/software/caffe-rc3"
 rm -rf "${INSTALL_PATH}"
 mkdir -p "${INSTALL_PATH}"
