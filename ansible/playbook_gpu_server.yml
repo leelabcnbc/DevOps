@@ -1,0 +1,9 @@
+---
+- name: set up GPU server (yimengzh.cnbc.cmu.edu)
+  hosts: yimeng-managed-computers
+  remote_user: yimengzh
+  become: true
+  roles:
+    - docker
+    - developer
+    - vncserver_virtualgl

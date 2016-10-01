@@ -1,0 +1,33 @@
+---
+- name: set up GPU server (yimengzh.cnbc.cmu.edu)
+  hosts: all
+  vars:
+    # you must chanage these according to `sudo blkid`, see <https://help.ubuntu.com/community/UsingUUID>
+    mount_hard_drive_mpoints: [ '/mnt/temp_drive' ]
+    mount_hard_drive_ids: [ 'UUID=89a68d99-dee0-4027-a3bf-3957d9c0addc' ]
+  remote_user: yimengzh
+  become: true
+  # passno and dump, and options are copied from <https://help.ubuntu.com/community/InstallingANewHardDrive>
+  tasks:
+  - name: mount all drives
+    mount:
+      name: "{{ item.0 }}"
+      src: "{{ item.1 }}"
+      fstype: ext4
+      state: mounted
+      passno: 2
+      dump: 0
+      opts: defaults
+    with_together:
+      - "{{ mount_hard_drive_mpoints }}"
+      - "{{ mount_hard_drive_ids }}"
+  # according to <https://help.ubuntu.com/community/InstallingANewHardDrive>
+  - name: make drives with correct permissions
+    file:
+      path: "{{ item }}"
+      group: plugdev
+      mode: "g+w,a+t"
+    with_items: "{{ mount_hard_drive_mpoints }}"
+
+
+

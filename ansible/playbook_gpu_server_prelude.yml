@@ -1,0 +1,23 @@
+---
+- name: set up GPU server (yimengzh.cnbc.cmu.edu), in terms of ssh
+  hosts: yimeng-managed-computers
+  remote_user: yimengzh
+  tasks:
+    - name: add ssh key
+      authorized_key:
+        user: yimengzh
+        key: http://cs.cmu.edu/~yimengzh/id_rsa.pub
+    - name: disable password login
+      blockinfile:
+        dest: /etc/ssh/sshd_config
+        block: |
+          Match User yimengzh
+          PasswordAuthentication no
+      notify: restart ssh server
+      become: true
+  handlers:
+    - name: restart ssh server
+      service:
+        name: ssh
+        state: restarted
+      become: true

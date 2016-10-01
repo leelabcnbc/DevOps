@@ -6,4 +6,4 @@
     state: present # as long as they are there, it's fine.
   with_items:
     - git
-  become: True
+    - tmux

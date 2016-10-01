@@ -1,0 +1,26 @@
+---
+- name: install LXDE, plus initial OpenGL support (should be overwritten by NVIDIA)
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  with_items:
+    - firefox
+    - lxde-core
+    - lxterminal
+    - xorg
+    - mesa-utils
+- name: copy turbovnc file
+  copy:
+    src: turbovnc_2.1_amd64.deb
+    dest: /tmp/turbovnc_2.1_amd64.deb
+- name: install turbovnc
+  apt:
+    deb: /tmp/turbovnc_2.1_amd64.deb
+- name: copy virtualgl file
+  copy:
+    src: virtualgl_2.5_amd64.deb
+    dest: /tmp/virtualgl_2.5_amd64.deb
+- name: install virtualgl
+  apt:
+    deb: /tmp/virtualgl_2.5_amd64.deb

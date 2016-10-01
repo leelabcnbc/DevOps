@@ -1,0 +1,10 @@
+# first
+ansible-playbook playbook_gpu_server_prelude.yml -i inventory --ask-become-pass --ask-pass
+# then
+ansible-playbook playbook_gpu_server.yml -i inventory --ask-become-pass
+
+# then, after knowing the SSIDs of hard drives using `sudo blkid`
+ansible-playbook playbook_mount_harddrive.yml -i '192.168.1.102,'  --ask-become-pass
+
+# replace '192.168.1.102,' with the actual address you want to work on.
+# http://stackoverflow.com/questions/17188147/how-to-run-ansible-without-specifying-the-inventory-but-the-host-directly
