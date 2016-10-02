@@ -25,14 +25,14 @@ fi
 
 # download a stable one, not latest, to prevent surprises.
 # follow <https://github.com/ReactionMechanismGenerator/RMG-tests/issues/18>
-INSTALLER='Miniconda2-4.0.5-Linux-x86_64.sh'
+INSTALLER='Miniconda2-4.1.11-Linux-x86_64.sh'
 cd ~
 rm -rf ~/${INSTALLER}
 wget http://repo.continuum.io/miniconda/${INSTALLER}
 # do silent installation. However, no PATH is changed.
 bash ${INSTALLER} -b -p ${INSTALL_PATH}
-# this version doesn't have problem of cloning stuff from other channels.
-${INSTALL_PATH}/bin/conda install -y conda=4.0.11
+# try latest one.
+${INSTALL_PATH}/bin/conda install -y conda=4.1.11
 
 echo "for convenience, add 'export PATH=${INSTALL_PATH}/bin:\$PATH' under appropriate file, such as .bashrc or .profile"
 echo "do this by yourself, as this varies from system to system, and may break the existing system."

@@ -1,3 +1,8 @@
+language: python
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
 os:
   - linux
 
@@ -11,5 +16,4 @@ before_script:
   - export PATH=${HOME}/miniconda2/bin:$PATH   # add path for miniconda
   - cd tests
 script:
-  - ./test-conda-env-common-wrapper.sh default   # for default conda env
-  - ./test-conda-env-common-wrapper.sh default-3 # for python 3 default conda env
+  - ./test-conda-env-travis-helper.sh ${TRAVIS_PYTHON_VERSION}

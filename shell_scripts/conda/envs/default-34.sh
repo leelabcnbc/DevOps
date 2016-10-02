@@ -9,7 +9,7 @@ set -o errexit
 
 if [ $# -le 1 ]; then
     if [ $# -eq 0 ]; then
-        ENV_NAME='default'
+        ENV_NAME='default-34'
     else
         ENV_NAME=$1
     fi
@@ -20,6 +20,6 @@ fi
 
 . ${DIR}/default-env-common.sh
 
-install_default_env ${ENV_NAME} 2.7
+install_default_env ${ENV_NAME} 3.4
 
 echo "done"
