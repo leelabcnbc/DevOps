@@ -3,10 +3,13 @@
 # Yimeng Zhang, 2016
 
 # set -o nounset
+# from <http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in?page=1&tab=votes#tab-top>
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 set -o errexit
 
 if [ $# -le 1 ]; then
     if [ $# -eq 0 ]; then
+    	# 3 means latest version, which is 3.5 as of 10/02/2016.
         ENV_NAME='default-3'
     else
         ENV_NAME=$1
@@ -16,10 +19,8 @@ else
     exit 1
 fi
 
-# create a default Python 3(.5) environment for the lab,
-# with all important things.
-# I need to fix versions, as well as specify channel, so that packages from
-# conda-forge will be used.
-conda create --yes --channel conda-forge --show-channel-urls -n ${ENV_NAME} \
-    python=3.5 numpy=1.11.1 scipy=0.18.0 matplotlib=1.5.2\
-    pandas=0.18.1 nose=1.3.7 notebook=4.2.1 h5py=2.6.0 openblas=0.2.18 git=2.8.2
+. ${DIR}/default-env-common.sh
+
+install_default_env ${ENV_NAME} 3.5
+
+echo "done"
