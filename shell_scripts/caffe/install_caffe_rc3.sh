@@ -2,12 +2,15 @@
 # should be changed to /data2/leelab in the future, for all common, but not public files.
 #set -o nounset
 #set -o errexit
-SOFTWARE_ROOT_PATH="/data2/leelab/software"  # this is for software source, not their destination.
 INSTALL_PATH="${HOME}/software/caffe-rc3"
 rm -rf "${INSTALL_PATH}"
 mkdir -p "${INSTALL_PATH}"
+TEMP_PATH="${HOME}/caffe-rc3.tar.gz"
+curl -k -L -o "${TEMP_PATH}" \
+    https://github.com/BVLC/caffe/archive/rc3.tar.gz
 # so we don't end up with caffe-rc3/caffe-rc3
-tar -xvzf "${SOFTWARE_ROOT_PATH}/caffe/caffe-rc3.tar.gz" --strip-components=1 -C "${INSTALL_PATH}"
+tar -xvzf "${TEMP_PATH}" --strip-components=1 -C "${INSTALL_PATH}"
+rm -rf "${TEMP_PATH}"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cp "${DIR}/Makefile.config.rc3" "${INSTALL_PATH}/Makefile.config"
 
