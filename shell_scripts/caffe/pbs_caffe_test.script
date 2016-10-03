@@ -9,7 +9,7 @@
 . activate cafferc3
 . ~/DevOps/env_scripts/add_cudnn_v4.sh
 . ~/DevOps/env_scripts/add_cuda_lib.sh
-. ~/DevOps/env_scripts/add_caffe_rc3_lib.sh
+. ~/DevOps/env_scripts/add_conda_env_lib.sh
 . ~/DevOps/env_scripts/add_openblas.sh
 cd ~/software/caffe-rc3
 make runtest &> ~/caffe_test_output

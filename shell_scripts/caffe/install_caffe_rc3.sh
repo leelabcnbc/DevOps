@@ -30,7 +30,7 @@ ${DIR}/../cuda/install_cudnn_v4.sh
 # when using these programs as the main executable, they can be found?
 # check <https://github.com/conda-forge/opencv-feedstock/issues/19> for details.
 # add my blas stuff first, so that caffe will link to my blas in anyway.
-export LD_LIBRARY_PATH="${HOME}/lib/OpenBLAS/lib:${CONDA_ENV_PATH}/lib"
+export LD_LIBRARY_PATH="${HOME}/lib/OpenBLAS/lib:${CONDA_PREFIX}/lib"
 sleep 5  # maybe it's good to do this for files to sync?
 make all -j12
 make test -j12
