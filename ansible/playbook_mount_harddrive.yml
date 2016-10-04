@@ -3,8 +3,8 @@
   hosts: all
   vars:
     # you must chanage these according to `sudo blkid`, see <https://help.ubuntu.com/community/UsingUUID>
-    mount_hard_drive_mpoints: [ '/mnt/temp_drive' ]
-    mount_hard_drive_ids: [ 'UUID=89a68d99-dee0-4027-a3bf-3957d9c0addc' ]
+    mount_hard_drive_mpoints: [ '/mnt/temp_drive_1', '/mnt/temp_drive_2', '/mnt/temp_drive_3' ]
+    mount_hard_drive_ids: [ 'UUID=3a1e0b73-1352-42e2-a570-4e6a145283c3',  'UUID=52a6b405-4c8a-4142-bfec-e845e6060e36', 'UUID=37777524-85d8-49b0-9035-00297d59fa57']
   remote_user: yimengzh
   become: true
   # passno and dump, and options are copied from <https://help.ubuntu.com/community/InstallingANewHardDrive>

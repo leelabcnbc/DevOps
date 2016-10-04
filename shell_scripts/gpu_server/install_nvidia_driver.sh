@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# before, you may need to disable nouveau. This is true for 14.04.5, but not 14.04.1.
+# maybe due to using newer kernel and hardware stack.
+# check <http://us.download.nvidia.com/XFree86/Linux-x86_64/367.44/README/commonproblems.html#nouveau>
+
 # first get driver
 curl -k -L -o /tmp/NVIDIA-driver.run \
     http://us.download.nvidia.com/XFree86/Linux-x86_64/367.44/NVIDIA-Linux-x86_64-367.44.run

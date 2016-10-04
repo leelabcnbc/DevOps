@@ -1,3 +1,5 @@
+# first first
+# modify the file `inventory`. I commented out those actual servers, in case you would do something bad to the server.
 # first
 ansible-playbook playbook_gpu_server_prelude.yml -i inventory --ask-become-pass --ask-pass
 # then
