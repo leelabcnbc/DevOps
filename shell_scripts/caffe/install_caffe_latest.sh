@@ -2,12 +2,14 @@
 # should be changed to /data2/leelab in the future, for all common, but not public files.
 #set -o nounset
 #set -o errexit
-INSTALL_PATH="${HOME}/software/caffe-master"
+INSTALL_PATH="${HOME}/software/caffe-latest"
 rm -rf "${INSTALL_PATH}"
 mkdir -p "${INSTALL_PATH}"
 TEMP_PATH="${HOME}/caffe-latest.tar.gz"
+# 4ba654f5c88c36ee8ba53964b7faf25c6d7010b4 is latest as of 10/06/2016
+CAFFE_LATEST_COMMIT="4ba654f5c88c36ee8ba53964b7faf25c6d7010b4"
 curl -k -L -o "${TEMP_PATH}" \
-    https://github.com/BVLC/caffe/archive/master.tar.gz
+    "https://github.com/BVLC/caffe/archive/${CAFFE_LATEST_COMMIT}.tar.gz"
 # so we don't end up with caffe-rc3/caffe-rc3
 tar -xvzf "${TEMP_PATH}" --strip-components=1 -C "${INSTALL_PATH}"
 rm -rf "${TEMP_PATH}"
@@ -18,9 +20,12 @@ cp "${DIR}/Makefile.config.rc3" "${INSTALL_PATH}/Makefile.config"
 cd "${INSTALL_PATH}"
 
 # install cafferc3 env
-# ${DIR}/../conda/envs/cafferc3.sh
+# check whether it exists
+if [ ! -d "${HOME}/miniconda2/envs/caffe" ]; then
+  ${DIR}/../conda/envs/cafferc3.sh caffe
+fi
 # activate cafferc3 env
-. activate cafferc3
+. activate caffe
 # install cuDNN v5 (can be done many times)
 ${DIR}/../cuda/install_cudnn_v5.sh
 # enable cuDNN v5 in the directory

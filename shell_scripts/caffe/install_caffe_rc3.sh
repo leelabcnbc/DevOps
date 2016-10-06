@@ -17,9 +17,13 @@ cp "${DIR}/Makefile.config.rc3" "${INSTALL_PATH}/Makefile.config"
 cd "${INSTALL_PATH}"
 
 # install cafferc3 env
-${DIR}/../conda/envs/cafferc3.sh
+# install cafferc3 env
+# check whether it exists
+if [ ! -d "${HOME}/miniconda2/envs/caffe" ]; then
+  ${DIR}/../conda/envs/cafferc3.sh caffe
+fi
 # activate cafferc3 env
-. activate cafferc3
+. activate caffe
 # install cuDNN v4 (can be done many times)
 ${DIR}/../cuda/install_cudnn_v4.sh
 # enable cuDNN v4 in the directory
