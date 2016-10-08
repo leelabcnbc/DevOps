@@ -31,7 +31,8 @@ conda install --yes --no-update-dependencies --channel conda-forge --show-channe
     pillow=3.2.0 pyyaml=3.11 boost=1.61.0 python-leveldb=0.193 \
     python-gflags=2.0
 # install a compiler to handle compiling, instead of the old GCC 4.4 on CentOS.
-conda install --yes --no-update-dependencies --channel serge-sans-paille --show-channel-urls \
+# also add conda-forge to avoid default channel packages superceding those from conda-forge
+conda install --yes --no-update-dependencies --channel serge-sans-paille --channel conda-forge --show-channel-urls \
     gcc_49=4.9.1
 # install a matching protobuf version.
 # YOU SHOULD NOT install protobuf 3, at least not for libprotobuf, whose protoc will break RC3.
