@@ -20,10 +20,8 @@ cp "${DIR}/Makefile.config.rc3" "${INSTALL_PATH}/Makefile.config"
 cd "${INSTALL_PATH}"
 
 # install cafferc3 env
-# check whether it exists
-if [ ! -d "${HOME}/miniconda2/envs/caffe" ]; then
-  ${DIR}/../conda/envs/cafferc3.sh caffe
-fi
+# this will still work even if it exists.
+${DIR}/../conda/envs/cafferc3.sh caffe
 # activate cafferc3 env
 . activate caffe
 # install cuDNN v5 (can be done many times)

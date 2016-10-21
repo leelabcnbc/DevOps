@@ -8,7 +8,7 @@
 # <https://github.com/conda/conda/issues/2633>
 # from <http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in?page=1&tab=votes#tab-top>
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
+. "${DIR}/common.sh"
 
 if [ $# -le 1 ]; then
     if [ $# -eq 0 ]; then
@@ -20,27 +20,25 @@ else
     echo "Usage: $0 [ENV_NAME]"
     exit 1
 fi
+check_env_exists "${ENV_NAME}"
+ENV_EXIST_RESULT=$? # '$?' is the return value of the previous command
+if [ "${ENV_EXIST_RESULT}" -eq 1 ]; then
+    "${DIR}/default.sh" "${ENV_NAME}"
+fi
 
-
-"${DIR}/default.sh" "${ENV_NAME}"
 . activate "${ENV_NAME}"
+# only specify version for opencv and python-flags. python-gflags is claimed to have some some incompatibility with 2.
+# so just stick to 2.
 conda install --yes --no-update-dependencies --channel conda-forge --show-channel-urls \
-    cython=0.24 opencv=2.4.12 \
-    snappy=1.1.3 leveldb=1.18 lmdb=0.9.18 glog=0.3.4 gflags=2.1.2 \
-    libprotobuf=2.5.0 networkx=1.11 scikit-image=0.12.3 \
-    pillow=3.2.0 pyyaml=3.11 boost=1.61.0 python-leveldb=0.193 \
-    python-gflags=2.0
+    cython opencv=2 \
+    snappy leveldb lmdb glog gflags \
+    protobuf networkx scikit-image \
+    pillow pyyaml boost python-leveldb \
+    python-gflags=2
 # install a compiler to handle compiling, instead of the old GCC 4.4 on CentOS.
 # also add conda-forge to avoid default channel packages superceding those from conda-forge
 conda install --yes --no-update-dependencies --channel serge-sans-paille --channel conda-forge --show-channel-urls \
     gcc_49=4.9.1
-# install a matching protobuf version.
-# YOU SHOULD NOT install protobuf 3, at least not for libprotobuf, whose protoc will break RC3.
-# I think this is because somehow protobuf is not compatible with GCC 4.6,
-# since after I changed to GCC 4.9, it worked...
-pip install protobuf==2.5.0
-
-# six is already installed, so skip.
 
 # seems that dateutil already has a higher version when installing other things...
 # so `python-dateutil>=1.4,<2` can't be honored. If pip tries uninstalling newer version,
