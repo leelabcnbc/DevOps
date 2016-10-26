@@ -1,8 +1,0 @@
-[cuda]
-root = ${HOME}/cuda
-[global]
-device = gpu0
-floatX = float32
-force_device=True
-[blas]
-ldflags = -lopenblas
