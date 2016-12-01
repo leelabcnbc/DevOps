@@ -13,9 +13,9 @@ function install_theano_tf {
     pip install nose-parameterized Theano==0.8.2
     # then let's install tensorflow.
     if [ "$1" == "2.7" ]; then
-        pip install /data2/leelab/software/tensorflow/gpu/py27/tensorflow-0.11.0rc0-py2-none-any.whl
+        pip install /data2/leelab/software/tensorflow/gpu/py27/tensorflow-0.11.0-py2-none-any.whl
     elif [ "$1" == "3.5" ]; then
-        pip install /data2/leelab/software/tensorflow/gpu/py35/tensorflow-0.11.0rc0-py3-none-any.whl
+        pip install /data2/leelab/software/tensorflow/gpu/py35/tensorflow-0.11.0-py3-none-any.whl
     fi
     # install cudnn v5
     ${DIR_LOCAL}/../../cuda/install_cudnn_v5.sh
