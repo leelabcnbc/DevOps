@@ -11,4 +11,6 @@ function install_default_env {
 # dateutil version is for <https://github.com/pandas-dev/pandas/issues/14621>.
 # essentially, pandas is wrong, and we will wait for 0.19.2.
 
+
+# another issue is that openblas=0.2.19 doesn't have scipy 0.18.1 version. wait for them to both upgrade later.
 }

@@ -32,7 +32,7 @@ wget http://repo.continuum.io/miniconda/${INSTALLER}
 # do silent installation. However, no PATH is changed.
 bash ${INSTALLER} -b -p ${INSTALL_PATH}
 # try latest one.
-${INSTALL_PATH}/bin/conda install -y conda=4.2.9
+${INSTALL_PATH}/bin/conda install -y conda=4.2.13
 
 echo "for convenience, add 'export PATH=${INSTALL_PATH}/bin:\$PATH' under appropriate file, such as .bashrc or .profile"
 echo "do this by yourself, as this varies from system to system, and may break the existing system."
