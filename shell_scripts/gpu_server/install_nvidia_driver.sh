@@ -5,8 +5,9 @@
 # check <http://us.download.nvidia.com/XFree86/Linux-x86_64/367.44/README/commonproblems.html#nouveau>
 
 # first get driver
+# this is latest 352.XX driver, which should work with MATLAB R2016a.
 curl -k -L -o /tmp/NVIDIA-driver.run \
-    http://us.download.nvidia.com/XFree86/Linux-x86_64/375.20/NVIDIA-Linux-x86_64-375.20.run
+    http://us.download.nvidia.com/XFree86/Linux-x86_64/352.79/NVIDIA-Linux-x86_64-352.79.run
 chmod +x /tmp/NVIDIA-driver.run
 # /tmp/NVIDIA-driver.run --help or --advanced-options can tell you optional flags. Some useful ones are listed below.
 #   -s, --silent
