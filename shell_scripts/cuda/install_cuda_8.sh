@@ -2,17 +2,17 @@
 # Install CUDA 7.5 for Linux in home directory.
 # check if the file exists.
 cd ~
-INSTALLER="${HOME}/cuda_7.5.18_linux.run"
-TOOLKITPATH="${HOME}/cuda-7.5"
-SAMPLEPATH="${HOME}/NVIDIA_CUDA-7.5_Samples"
+INSTALLER="${HOME}/cuda_8.0.44_linux-run"
+TOOLKITPATH="${HOME}/cuda-8.0"
+SAMPLEPATH="${HOME}/NVIDIA_CUDA-8.0_Samples"
 if [ ! -f "${INSTALLER}" ]; then
-    curl -k -L -o cuda_7.5.18_linux.run \
-        http://developer.download.nvidia.com/compute/cuda/7.5/Prod/local_installers/cuda_7.5.18_linux.run
+    curl -k -L -o cuda_8.0.44_linux-run \
+        https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda_8.0.44_linux-run
 fi
 
-sh cuda_7.5.18_linux.run --silent --toolkit --samples --toolkitpath=${TOOLKITPATH} --samplespath=${SAMPLEPATH}
+sh cuda_8.0.44_linux-run --silent --toolkit --samples --toolkitpath=${TOOLKITPATH} --samplespath=${SAMPLEPATH}
 
-echo "CUDA 7.5 has been installed under ${TOOLKITPATH}, sample at ${SAMPLEPATH}"
+echo "CUDA 8.0 has been installed under ${TOOLKITPATH}, sample at ${SAMPLEPATH}"
 echo "create a symlink at ${HOME}/cuda for convenience, as we usually only need one single CUDA toolkit"
 
 
