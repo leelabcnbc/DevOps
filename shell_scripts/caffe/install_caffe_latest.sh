@@ -6,24 +6,25 @@ INSTALL_PATH="${HOME}/software/caffe-latest"
 rm -rf "${INSTALL_PATH}"
 mkdir -p "${INSTALL_PATH}"
 TEMP_PATH="${HOME}/caffe-latest.tar.gz"
-# 4ba654f5c88c36ee8ba53964b7faf25c6d7010b4 is latest as of 10/06/2016
-CAFFE_LATEST_COMMIT="4ba654f5c88c36ee8ba53964b7faf25c6d7010b4"
+# latest as of 01/26/2017
+CAFFE_LATEST_COMMIT="b015b73281ea6993319e4b456210325f679db7b1"
 curl -k -L -o "${TEMP_PATH}" \
     "https://github.com/BVLC/caffe/archive/${CAFFE_LATEST_COMMIT}.tar.gz"
 # so we don't end up with caffe-rc3/caffe-rc3
 tar -xvzf "${TEMP_PATH}" --strip-components=1 -C "${INSTALL_PATH}"
 rm -rf "${TEMP_PATH}"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-# the one for rc3 should do.
-cp "${DIR}/Makefile.config.rc3" "${INSTALL_PATH}/Makefile.config"
+cp "${DIR}/Makefile.config.rc4" "${INSTALL_PATH}/Makefile.config"
 
 cd "${INSTALL_PATH}"
 
-# install cafferc3 env
+# install caffe env
 # this will still work even if it exists.
-${DIR}/../conda/envs/cafferc3.sh caffe
+${DIR}/../conda/envs/caffe.sh caffe
 # activate cafferc3 env
 . activate caffe
+# install NCCL (can be done many times)
+CC=gcc-4.9 CXX=g++-4.9 ${DIR}/../nccl/install_nccl.sh
 # install cuDNN v5 (can be done many times)
 ${DIR}/../cuda/install_cudnn_v5.sh
 # enable cuDNN v5 in the directory

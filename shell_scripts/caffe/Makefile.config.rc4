@@ -32,8 +32,8 @@ CUDA_DIR := ${HOME}/cuda
 
 # CUDA architecture setting: going with all of them.
 # For CUDA < 6.0, comment the *_50 lines for compatibility.
-CUDA_ARCH := -gencode arch=compute_35,code=sm_35 \
-		-gencode arch=compute_52,code=sm_52
+CUDA_ARCH := -gencode arch=compute_52,code=sm_52 \
+		-gencode arch=compute_61,code=sm_61
 
 # BLAS choice:
 # atlas for ATLAS (default)
@@ -52,7 +52,7 @@ BLAS_LIB := ${HOME}/lib/OpenBLAS/lib
 
 # This is required only if you will compile the matlab interface.
 # MATLAB directory should contain the mex binary in /bin.
-# MATLAB_DIR := /usr/local/MATLAB/R2014a/
+# MATLAB_DIR := /usr/local
 # MATLAB_DIR := /Applications/MATLAB_R2012b.app
 
 # NOTE: this is required only if you will compile the python interface.
@@ -85,17 +85,26 @@ PYTHON_LIB := $(ANACONDA_HOME)/lib
 # Whatever else you find you need goes here.
 # Yimeng: I did trick here to put BLAS related things in the front. this would make -lopenblas to link my own openblas instead of the one in the miniconda...
 # remove system directories all together.
-INCLUDE_DIRS := $(BLAS_INCLUDE) $(PYTHON_INCLUDE)
-LIBRARY_DIRS := $(BLAS_LIB) $(PYTHON_LIB)
+
+NCCL_INCLUDE := ${HOME}/lib/nccl/include
+NCCL_LIB := ${HOME}/lib/nccl/lib
+
+INCLUDE_DIRS := $(NCCL_INCLUDE) $(BLAS_INCLUDE) $(PYTHON_INCLUDE)
+LIBRARY_DIRS := $(NCCL_LIB) $(BLAS_LIB) $(PYTHON_LIB)
 
 # If Homebrew is installed at a non standard location (for example your home directory) and you use it for general dependencies
 # INCLUDE_DIRS += $(shell brew --prefix)/include
 # LIBRARY_DIRS += $(shell brew --prefix)/lib
 
+# NCCL acceleration switch (uncomment to build with NCCL)
+# https://github.com/NVIDIA/nccl (last tested version: v1.2.3-1+cuda8.0)
+USE_NCCL := 1
+
 # Uncomment to use `pkg-config` to specify OpenCV library paths.
 # (Usually not necessary -- OpenCV libraries are normally installed in one of the above $LIBRARY_DIRS.)
 # USE_PKG_CONFIG := 1
 
+# N.B. both build and distribute dirs are cleared on `make clean`
 BUILD_DIR := build
 DISTRIBUTE_DIR := distribute
 

@@ -3,7 +3,7 @@
 # Yimeng Zhang, 2016
 # set -o nounset
 # set -o errexit
-# create a default Python 2 environment for Caffe rc3
+# create a default Python 2 environment for Caffe (at least should work for rc3 and rc4)
 # I really wanted to use clone, but somehow it's broken for packages from non-standard channels.
 # <https://github.com/conda/conda/issues/2633>
 # from <http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in?page=1&tab=votes#tab-top>
@@ -12,7 +12,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ $# -le 1 ]; then
     if [ $# -eq 0 ]; then
-        ENV_NAME='cafferc3'
+        ENV_NAME='caffe'
     else
         ENV_NAME=$1
     fi
