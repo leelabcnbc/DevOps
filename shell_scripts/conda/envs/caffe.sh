@@ -27,14 +27,13 @@ if [ "${ENV_EXIST_RESULT}" -eq 1 ]; then
 fi
 
 . activate "${ENV_NAME}"
-# only specify version for opencv and python-flags. python-gflags is claimed to have some some incompatibility with 2.
-# so just stick to 2.
+# only specify version for opencv. I don't want to introduce further trouble with Caffe's dependencies
 conda install --yes --no-update-dependencies --channel conda-forge --show-channel-urls \
     cython opencv=2 \
     snappy leveldb lmdb glog gflags \
     protobuf networkx scikit-image \
     pillow pyyaml boost python-leveldb \
-    python-gflags=2
+    python-gflags
 # install a compiler to handle compiling, instead of the old GCC 4.4 on CentOS.
 # also add conda-forge to avoid default channel packages superceding those from conda-forge
 conda install --yes --no-update-dependencies --channel serge-sans-paille --channel conda-forge --show-channel-urls \
