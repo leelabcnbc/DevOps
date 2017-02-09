@@ -4,7 +4,7 @@
 # because zlib url problem (<https://github.com/tensorflow/tensorflow/issues/6594>)
 
 # pull base image
-FROM leelabcnbc/bazel:0.4.4-cuda8.0-cudnn5-centos6
+FROM leelabcnbc/bazel:0.4.3-cuda8.0-cudnn5-centos6
 MAINTAINER Yimeng Zhang <zym1010@gmail.com>
 COPY CROSSTOOL.tpl /tmp/
 COPY crosstool_wrapper_driver_is_not_gcc.tpl /tmp/
