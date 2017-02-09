@@ -39,6 +39,16 @@ default_toolchain {
   toolchain_identifier: "local_linux"
 }
 
+default_toolchain {
+  cpu: "ppc"
+  toolchain_identifier: "local_linux"
+}
+
+default_toolchain {
+  cpu: "ios_x86_64"
+  toolchain_identifier: "ios_x86_64"
+}
+
 toolchain {
   abi_version: "armeabi-v7a"
   abi_libc_version: "armeabi-v7a"
@@ -90,34 +100,36 @@ toolchain {
   target_system_name: "local"
   toolchain_identifier: "local_linux"
 
-  tool_path { name: "ar" path: "/usr/bin/ar" }
-  tool_path { name: "compat-ld" path: "/usr/bin/ld" }
-  tool_path { name: "cpp" path: "/usr/bin/cpp" }
-  tool_path { name: "dwp" path: "/usr/bin/dwp" }
-  tool_path { name: "gcc" path: "/usr/bin/gcc" }
+  tool_path { name: "ar" path: "/opt/rh/devtoolset-3/root/usr/bin/ar" }
+  tool_path { name: "compat-ld" path: "/opt/rh/devtoolset-3/root/usr/bin/ld" }
+  tool_path { name: "cpp" path: "/opt/rh/devtoolset-3/root/usr/bin/cpp" }
+  tool_path { name: "dwp" path: "/opt/rh/devtoolset-3/root/usr/bin/dwp" }
+  tool_path { name: "gcc" path: "/opt/rh/devtoolset-3/root/usr/bin/gcc" }
   cxx_flag: "-std=c++0x"
   linker_flag: "-lstdc++"
-  linker_flag: "-B/usr/bin/"
+  linker_flag: "-B/opt/rh/devtoolset-3/root/usr/bin/"
 
   # TODO(bazel-team): In theory, the path here ought to exactly match the path
   # used by gcc. That works because bazel currently doesn't track files at
   # absolute locations and has no remote execution, yet. However, this will need
   # to be fixed, maybe with auto-detection?
-  cxx_builtin_include_directory: "/usr/lib/gcc/"
+
+  cxx_builtin_include_directory: "/opt/rh/devtoolset-3/root/usr/lib/gcc"
+  cxx_builtin_include_directory: "/opt/rh/devtoolset-3/root/usr/include"
   cxx_builtin_include_directory: "/usr/local/include"
   cxx_builtin_include_directory: "/usr/include"
-  tool_path { name: "gcov" path: "/usr/bin/gcov" }
+  tool_path { name: "gcov" path: "/opt/rh/devtoolset-3/root/usr/bin/gcov" }
 
   # C(++) compiles invoke the compiler (as that is the one knowing where
   # to find libraries), but we provide LD so other rules can invoke the linker.
-  tool_path { name: "ld" path: "/usr/bin/ld" }
+  tool_path { name: "ld" path: "/opt/rh/devtoolset-3/root/usr/bin/ld" }
 
-  tool_path { name: "nm" path: "/usr/bin/nm" }
-  tool_path { name: "objcopy" path: "/usr/bin/objcopy" }
+  tool_path { name: "nm" path: "/opt/rh/devtoolset-3/root/usr/bin/nm" }
+  tool_path { name: "objcopy" path: "/opt/rh/devtoolset-3/root/usr/bin/objcopy" }
   objcopy_embed_flag: "-I"
   objcopy_embed_flag: "binary"
-  tool_path { name: "objdump" path: "/usr/bin/objdump" }
-  tool_path { name: "strip" path: "/usr/bin/strip" }
+  tool_path { name: "objdump" path: "/opt/rh/devtoolset-3/root/usr/bin/objdump" }
+  tool_path { name: "strip" path: "/opt/rh/devtoolset-3/root/usr/bin/strip" }
 
   # Anticipated future default.
   unfiltered_cxx_flag: "-no-canonical-prefixes"
@@ -802,4 +814,38 @@ toolchain {
     compiler_flag: "/O2"
     compiler_flag: "-Xcompilation-mode=opt"
   }
+}
+
+# Stub crosstool to allow construction of apple crosstool configuration in a
+# static configuration set.
+# TODO(b/33804121): Remove this once dynamic configurations are in place.
+toolchain {
+  toolchain_identifier: "ios_x86_64"
+  host_system_name: "x86_64-apple-macosx"
+  target_system_name: "x86_64-apple-ios"
+  target_cpu: "ios_x86_64"
+  target_libc: "ios"
+  compiler: "compiler"
+  abi_version: "local"
+  abi_libc_version: "local"
+  supports_gold_linker: false
+  supports_incremental_linker: false
+  supports_fission: false
+  supports_interface_shared_objects: false
+  supports_normalizing_ar: false
+  supports_start_end_lib: false
+
+  tool_path { name: "ar" path: "/bin/false" }
+  tool_path { name: "compat-ld" path: "/bin/false" }
+  tool_path { name: "cpp" path: "/bin/false" }
+  tool_path { name: "dwp" path: "/bin/false" }
+  tool_path { name: "gcc" path: "/bin/false" }
+  tool_path { name: "gcov" path: "/bin/false" }
+  tool_path { name: "ld" path: "/bin/false" }
+
+  tool_path { name: "nm" path: "/bin/false" }
+  tool_path { name: "objcopy" path: "/bin/false" }
+  tool_path { name: "objdump" path: "/bin/false" }
+  tool_path { name: "strip" path: "/bin/false" }
+  linking_mode_flags { mode: DYNAMIC }
 }
