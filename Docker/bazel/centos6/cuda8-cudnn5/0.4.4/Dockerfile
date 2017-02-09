@@ -16,11 +16,11 @@ COPY CROSSTOOL /tmp/CROSSTOOL
 
 # install Bazel
 RUN echo "===> install Bazel..."  && \
-    cd ~ && curl -k -L -O https://github.com/bazelbuild/bazel/archive/0.4.4/bazel-0.4.4-dist.zip && \
-    unzip bazel-0.4.4-dist.zip && rm -rf bazel-0.4.4-dist.zip && cd bazel-0.4.4/ && cp /tmp/CROSSTOOL tools/cpp/CROSSTOOL && \
+    cd ~ && curl -k -L -O https://github.com/bazelbuild/bazel/releases/download/0.4.4/bazel-0.4.4-dist.zip && \
+    unzip bazel-0.4.4-dist.zip -d bazel-0.4.4-dist && rm -rf bazel-0.4.4-dist.zip && cd bazel-0.4.4-dist/ && cp /tmp/CROSSTOOL tools/cpp/CROSSTOOL && \
    	ls -la tools/cpp/ && \
    	scl enable devtoolset-3 './compile.sh' && \
-   	mkdir -p ~/bin && cp output/bazel ~/bin && cd ~ && rm -rf bazel-0.4.4 && rm -rf .cache
+   	mkdir -p ~/bin && cp output/bazel ~/bin && cd ~ && rm -rf bazel-0.4.4-dist && rm -rf .cache
 
 # default command: run bash
 CMD ["echo", "bazel is at ~/bin"]
