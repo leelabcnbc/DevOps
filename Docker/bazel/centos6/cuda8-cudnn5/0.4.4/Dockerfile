@@ -5,10 +5,11 @@
 FROM nvidia/cuda:8.0-cudnn5-devel-centos6
 MAINTAINER Yimeng Zhang <zym1010@gmail.com>
 
-# install relevant software to build tensorflow and bazel. swig is tensorflow specific.
+# install relevant software to build tensorflow and bazel.
+# --disablerepo=cuda is temp fix for `https://gitlab.com/nvidia/cuda/issues/1`
 RUN echo "===> Add relevant software..."  && \
-    yum -y install centos-release-scl && \
-    yum -y install swig java-1.8.0-openjdk-devel devtoolset-3-toolchain zip unzip zlib zlib-devel git && \
+    yum -y --disablerepo=cuda install centos-release-scl && \
+    yum -y --disablerepo=cuda install java-1.8.0-openjdk-devel devtoolset-3-toolchain zip unzip zlib zlib-devel git && \
     yum clean all
 
 COPY CROSSTOOL /tmp/CROSSTOOL
