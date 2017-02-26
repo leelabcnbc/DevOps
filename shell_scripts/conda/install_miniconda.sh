@@ -33,6 +33,8 @@ wget http://repo.continuum.io/miniconda/${INSTALLER}
 bash ${INSTALLER} -b -p ${INSTALL_PATH}
 # try latest one.
 ${INSTALL_PATH}/bin/conda install -y conda=4.2.13
+# this tmux works on my account as well!
+${INSTALL_PATH}/bin/conda install --yes --no-update-dependencies --channel conda-forge --show-channel-urls tmux=2.3
 
 echo "for convenience, add 'export PATH=${INSTALL_PATH}/bin:\$PATH' under appropriate file, such as .bashrc or .profile"
 echo "do this by yourself, as this varies from system to system, and may break the existing system."
