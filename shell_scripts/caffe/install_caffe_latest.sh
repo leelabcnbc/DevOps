@@ -7,7 +7,7 @@ rm -rf "${INSTALL_PATH}"
 mkdir -p "${INSTALL_PATH}"
 TEMP_PATH="${HOME}/caffe-latest.tar.gz"
 # latest as of 01/26/2017
-CAFFE_LATEST_COMMIT="b015b73281ea6993319e4b456210325f679db7b1"
+CAFFE_LATEST_COMMIT="16467ff149c880f752414ee2c241c01040d1a05f"
 curl -k -L -o "${TEMP_PATH}" \
     "https://github.com/BVLC/caffe/archive/${CAFFE_LATEST_COMMIT}.tar.gz"
 # so we don't end up with caffe-rc3/caffe-rc3
