@@ -9,7 +9,8 @@ function install_theano_tf {
         "only 2.7 and 3.5 are supported"
         exit 1
     fi
-	conda install --yes -c conda-forge --no-update-dependencies protobuf>=3.1.0 mock>=2.0.0
+    # see <https://conda.io/docs/spec.html#package-match-specifications>. Need double quote.
+	conda install --yes -c conda-forge --no-update-dependencies "protobuf>=3.1.0" "mock>=2.0.0"
     pip install nose-parameterized Theano==0.8.2
     # then let's install tensorflow.
     if [ "$1" == "2.7" ]; then
