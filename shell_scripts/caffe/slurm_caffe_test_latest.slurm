@@ -5,7 +5,7 @@
 #SBATCH --time=2:00:00
 #SBATCH --mem=10G
 #SBATCH --gres=gpu:1
-#SBATCH - o ~/caffe_test_latest_output_slurm
+#SBATCH -o ~/caffe_test_latest_output_slurm
 
 . activate caffe
 . ~/DevOps/env_scripts/add_cudnn_v5.sh
