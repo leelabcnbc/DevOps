@@ -3,7 +3,7 @@
 # Yimeng Zhang, 2016
 # set -o nounset
 # set -o errexit
-# create a default Python 2 environment for Caffe rc3
+# create a default Python 2 environment for Caffe (at least should work for rc3 and rc4)
 # I really wanted to use clone, but somehow it's broken for packages from non-standard channels.
 # <https://github.com/conda/conda/issues/2633>
 # from <http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in?page=1&tab=votes#tab-top>
@@ -12,7 +12,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ $# -le 1 ]; then
     if [ $# -eq 0 ]; then
-        ENV_NAME='cafferc3'
+        ENV_NAME='caffe'
     else
         ENV_NAME=$1
     fi
@@ -27,14 +27,13 @@ if [ "${ENV_EXIST_RESULT}" -eq 1 ]; then
 fi
 
 . activate "${ENV_NAME}"
-# only specify version for opencv and python-flags. python-gflags is claimed to have some some incompatibility with 2.
-# so just stick to 2.
+# only specify version for opencv. I don't want to introduce further trouble with Caffe's dependencies
 conda install --yes --no-update-dependencies --channel conda-forge --show-channel-urls \
     cython opencv=2 \
     snappy leveldb lmdb glog gflags \
     protobuf networkx scikit-image \
     pillow pyyaml boost python-leveldb \
-    python-gflags=2
+    python-gflags
 # install a compiler to handle compiling, instead of the old GCC 4.4 on CentOS.
 # also add conda-forge to avoid default channel packages superceding those from conda-forge
 conda install --yes --no-update-dependencies --channel serge-sans-paille --channel conda-forge --show-channel-urls \
