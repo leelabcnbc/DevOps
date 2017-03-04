@@ -23,12 +23,12 @@ fi
 check_env_exists "${ENV_NAME}"
 ENV_EXIST_RESULT=$? # '$?' is the return value of the previous command
 if [ "${ENV_EXIST_RESULT}" -eq 1 ]; then
-    "${DIR}/default3.sh" "${ENV_NAME}"
+    "${DIR}/default-3.sh" "${ENV_NAME}"
 fi
 
 . activate "${ENV_NAME}"
 conda install --yes --no-update-dependencies --channel conda-forge --show-channel-urls \
-    fftw=3.3.6 sox=14.4.2 cmake=3.7.1 gnuplot=5.0.5 unzip=6.0
+    cmake=3.7.1
 # install a compiler to handle compiling, instead of the old GCC 4.4 on CentOS.
 # also add conda-forge to avoid default channel packages superceding those from conda-forge
 conda install --yes --no-update-dependencies --channel serge-sans-paille --channel conda-forge --show-channel-urls \
