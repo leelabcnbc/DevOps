@@ -28,12 +28,9 @@ fi
 
 . activate "${ENV_NAME}"
 # install a GUI-enabled opencv
-conda install --yes --no-update-dependencies --channel loopbio --channel conda-forge --show-channel-urls \
-    opencv=3.2.0
-
 # only specify version for opencv. I don't want to introduce further trouble with Caffe's dependencies
-conda install --yes --no-update-dependencies --channel conda-forge --show-channel-urls \
-    cython \
+conda install --yes --no-update-dependencies --channel zym1010 --channel conda-forge --show-channel-urls \
+    cython opencv=2.4.13 \
     snappy leveldb lmdb glog gflags \
     protobuf networkx scikit-image \
     pillow pyyaml boost python-leveldb \
@@ -41,7 +38,7 @@ conda install --yes --no-update-dependencies --channel conda-forge --show-channe
 
 # install a compiler to handle compiling, instead of the old GCC 4.4 on CentOS.
 # also add conda-forge to avoid default channel packages superceding those from conda-forge
-conda install --yes --no-update-dependencies --channel serge-sans-paille --channel conda-forge --show-channel-urls \
+conda install --yes --no-update-dependencies --channel serge-sans-paille --channel zym1010 --channel conda-forge --show-channel-urls \
     gcc_49=4.9.1
 
 

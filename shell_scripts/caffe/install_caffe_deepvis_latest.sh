@@ -14,15 +14,15 @@ curl -k -L -o "${TEMP_PATH}" \
 tar -xvzf "${TEMP_PATH}" --strip-components=1 -C "${INSTALL_PATH}"
 rm -rf "${TEMP_PATH}"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cp "${DIR}/Makefile.config.rc4.deepvis" "${INSTALL_PATH}/Makefile.config"
+cp "${DIR}/Makefile.config.rc4" "${INSTALL_PATH}/Makefile.config"
 
 cd "${INSTALL_PATH}"
 
-# install caffe env
+# install caffe env. this is for GPU version on cluster, without needing any GUI. So don't need fancy GUI opencv.
 # this will still work even if it exists.
-${DIR}/../conda/envs/caffe-deepvis.sh caffe-deepvis
+${DIR}/../conda/envs/caffe.sh caffe
 # activate cafferc3 env
-. activate caffe-deepvis
+. activate caffe
 # install NCCL (can be done many times)
 CC=gcc-4.9 CXX=g++-4.9 ${DIR}/../nccl/install_nccl.sh
 # install cuDNN v5 (can be done many times)

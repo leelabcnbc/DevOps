@@ -17,6 +17,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cp "${DIR}/Makefile.config.rc4.deepvis_cpu" "${INSTALL_PATH}/Makefile.config"
 
 cd "${INSTALL_PATH}"
+${DIR}/../conda/envs/caffe-deepvis.sh caffe-deepvis
 
 . activate caffe-deepvis
 # try fixing dynamic linking for opencv's shared libraries (libpng, libjpeg, etc.),
@@ -27,6 +28,7 @@ cd "${INSTALL_PATH}"
 # add my blas stuff first, so that caffe will link to my blas in anyway.
 export LD_LIBRARY_PATH="${HOME}/lib/OpenBLAS/lib:${CONDA_PREFIX}/lib"
 sleep 5  # maybe it's good to do this for files to sync?
-make all -j12
-make test -j12
+# don't use j; seems that on yimengzh.cnbc.cmu.edu, this can sometimes cause error in building
+# <http://blog.csdn.net/ThomasCai001/article/details/53940430>
+make all
 make pycaffe
