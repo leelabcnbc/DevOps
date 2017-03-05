@@ -1,0 +1,56 @@
+# build Docker image, substitute yimengzh with your own user name on cluster.
+cd ~/DevOps/Docker/torch/centos6/cuda8 && sudo docker build -t leelabcnbc/torch:20170304-cuda8.0-cudnn5-centos6 .
+
+## after building your Docker, and run it, using, say, `sudo docker run -it leelabcnbc/torch:20170304-cuda8.0-cudnn5-centos6`
+cd ~ && tar -czvf torch.tar.gz -C torch .
+# then copy
+sudo docker cp wonderful_bartik:/home/yimengzh/torch.tar.gz .
+# then use any way to move it to th cluster, under your home directory.
+# when using, first untar
+mkdir -p ~/torch && tar -xzvpf torch.tar.gz -C ~/torch
+
+# this hacking simply won't work. Too many paths are hardcoded in Torch.
+# # [ONLY ONCE] then hack the th binary.
+
+# sed -i.bak "s@/root@${HOME}@g" ~/torch/install/bin/th
+
+# sed -i.bak "s@/root@${HOME}@g" ~/torch/install/bin/json2lua
+# sed -i.bak "s@/root@${HOME}@g" ~/torch/install/bin/lua2json
+# sed -i.bak "s@/root@${HOME}@g" ~/torch/install/bin/luarocks
+# sed -i.bak "s@/root@${HOME}@g" ~/torch/install/bin/luarocks-admin
+# sed -i.bak "s@/root@${HOME}@g" ~/torch/install/bin/mdcat
+# sed -i.bak "s@/root@${HOME}@g" ~/torch/install/etc/luarocks/config.lua
+
+# then activate script
+# <http://stackoverflow.com/questions/16790793/how-to-replace-strings-containing-slashes-with-sed>
+# sed "s@/root@${HOME}@g" ~/torch/install/bin/torch-activate > torch_activate.sh && . torch_activate.sh
+
+
+# load conda env
+. activate torch
+. ~/DevOps/env_scripts/add_cuda_lib.sh
+. ~/DevOps/env_scripts/add_cudnn_v5.sh
+. ~/DevOps/env_scripts/add_conda_env_lib.sh
+export CC=gcc-4.9
+export CXX=g++-4.9
+# load path
+.  ~/torch/install/bin/torch-activate
+
+
+# run test
+cd ~/torch
+./test.sh
+# don't touch or type anything while testing. otherwise maybe some spurious erros when come.
+# It may hang or be very slow when testing "SpatialConvolutionMM_backward_batch", emitting warnings like
+# OpenBLAS Warning : Detect OpenMP Loop and this application may hang. Please rebuild the library with USE_OPENMP=1 option.
+# probably I can't help this, as usually OpenBLAS are built without OpenMP, and two verions of OpenBLAS may clash if we want to use numpy along the same way with Torch. Anyway, it shouldn't matter in practice, as we run on GPU, not using OpenBLAS.
+# in the end, there should be only some errors for halftensors, which are kind of expected.
+
+
+# this can be done after you have performed all above operations.
+# first clone the iTorch repo
+
+# then make it specifying openssl and zmq, as well as lib
+LIBRARY_PATH="${CONDA_PREFIX}/lib:${CONDA_PREFIX}/lib64:$LIBRARY_PATH" luarocks make ZMQ_INCDIR="${CONDA_PREFIX}/include" OPENSSL_INCDIR="${CONDA_PREFIX}/include"
+# open notebook. just as you would do with jupyter. 8893 is just an example.
+itorch notebook --no-browser --port=8893
