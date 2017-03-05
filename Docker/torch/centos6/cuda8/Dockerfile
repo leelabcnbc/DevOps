@@ -17,7 +17,7 @@ RUN cd ~ && pwd && id
 
 # install conda
 RUN echo "===> install conda env"  && \
-    cd ~ && git clone -b torch https://github.com/leelabcnbc/DevOps && ~/DevOps/shell_scripts/conda/install_miniconda.sh && \
+    cd ~ && git clone https://github.com/leelabcnbc/DevOps && ~/DevOps/shell_scripts/conda/install_miniconda.sh && \
     PATH="${HOME}/miniconda2/bin:${PATH}" ~/DevOps/shell_scripts/conda/envs/torch.sh
 # clone torch
 # I replaced clone --recursive with separate commands to specify commits. Check <https://git-scm.com/docs/git-clone>
@@ -25,7 +25,7 @@ RUN echo "===> check out Torch..."  && \
     cd ~ && git clone https://github.com/torch/distro.git ~/torch && cd ~/torch && git checkout 497e8b98596eebc7d2b7852d3bdb3df3a43bbe9b && \
     git submodule update --init --recursive
 
-# this works for this commit. may need change for others.
+# this works for this commit. may need change for other commits.
 RUN echo "===> hack Torch install.sh ..." && \
     cd ~/torch && sed -i.bak '34,36 d' install.sh
 
