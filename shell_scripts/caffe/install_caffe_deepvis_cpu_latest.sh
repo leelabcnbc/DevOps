@@ -30,5 +30,5 @@ export LD_LIBRARY_PATH="${HOME}/lib/OpenBLAS/lib:${CONDA_PREFIX}/lib"
 sleep 5  # maybe it's good to do this for files to sync?
 # don't use j; seems that on yimengzh.cnbc.cmu.edu, this can sometimes cause error in building
 # <http://blog.csdn.net/ThomasCai001/article/details/53940430>
-make all
+make all -j24
 make pycaffe
