@@ -18,7 +18,7 @@ USE_CUDNN := 1
 # ALLOW_LMDB_NOLOCK := 1
 
 # Uncomment if you're using OpenCV 3
-# OPENCV_VERSION := 3
+OPENCV_VERSION := 3
 
 # To customize your choice of compiler, uncomment and set the following.
 # N.B. the default for Linux is g++ and the default for OSX is clang++
@@ -58,16 +58,16 @@ BLAS_LIB := ${HOME}/lib/OpenBLAS/lib
 # NOTE: this is required only if you will compile the python interface.
 # We need to be able to find Python.h and numpy/arrayobject.h.
 # PYTHON_INCLUDE := /usr/include/python2.7 \
-		/usr/lib/python2.7/dist-packages/numpy/core/include
+#		/usr/lib/python2.7/dist-packages/numpy/core/include
 # Anaconda Python distribution is quite popular. Include path:
 # Verify anaconda location, sometimes it's in root.
-ANACONDA_HOME := $(HOME)/miniconda2/envs/caffe
+ANACONDA_HOME := $(HOME)/miniconda2/envs/caffe-3
 PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
-		 $(ANACONDA_HOME)/include/python2.7 \
-		 $(ANACONDA_HOME)/lib/python2.7/site-packages/numpy/core/include \
+		 $(ANACONDA_HOME)/include/python3.5m \
+		 $(ANACONDA_HOME)/lib/python3.5/site-packages/numpy/core/include
 
 # Uncomment to use Python 3 (default is Python 2)
-# PYTHON_LIBRARIES := boost_python3 python3.5m
+PYTHON_LIBRARIES := boost_python3 python3.5m
 # PYTHON_INCLUDE := /usr/include/python3.5m \
 #                 /usr/lib/python3.5/dist-packages/numpy/core/include
 
