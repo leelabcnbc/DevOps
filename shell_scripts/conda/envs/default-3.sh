@@ -21,6 +21,6 @@ fi
 
 . ${DIR}/default-env-common.sh
 
-install_default_env ${ENV_NAME} 3.5
+install_default_env ${ENV_NAME} 3.6
 
 echo "done"

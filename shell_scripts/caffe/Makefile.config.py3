@@ -64,10 +64,10 @@ BLAS_LIB := ${HOME}/lib/OpenBLAS/lib
 ANACONDA_HOME := $(HOME)/miniconda2/envs/caffe-3
 PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
 		 $(ANACONDA_HOME)/include/python3.5m \
-		 $(ANACONDA_HOME)/lib/python3.5/site-packages/numpy/core/include
+		 $(ANACONDA_HOME)/lib/python3.6/site-packages/numpy/core/include
 
 # Uncomment to use Python 3 (default is Python 2)
-PYTHON_LIBRARIES := boost_python3 python3.5m
+PYTHON_LIBRARIES := boost_python3 python3.6m
 # PYTHON_INCLUDE := /usr/include/python3.5m \
 #                 /usr/lib/python3.5/dist-packages/numpy/core/include
 

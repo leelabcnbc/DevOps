@@ -6,7 +6,7 @@ fi
 
 if [ "$1" == "2.7" ]; then
 	./test-conda-env-common-wrapper.sh default
-elif [ "$1" == "3.5" ]; then
+elif [ "$1" == "3.6" ]; then
 	./test-conda-env-common-wrapper.sh default-3
 else
 	echo "Unsupported version $1"
