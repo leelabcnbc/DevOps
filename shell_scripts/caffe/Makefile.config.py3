@@ -63,7 +63,7 @@ BLAS_LIB := ${HOME}/lib/OpenBLAS/lib
 # Verify anaconda location, sometimes it's in root.
 ANACONDA_HOME := $(HOME)/miniconda2/envs/caffe-3
 PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
-		 $(ANACONDA_HOME)/include/python3.5m \
+		 $(ANACONDA_HOME)/include/python3.6m \
 		 $(ANACONDA_HOME)/lib/python3.6/site-packages/numpy/core/include
 
 # Uncomment to use Python 3 (default is Python 2)
