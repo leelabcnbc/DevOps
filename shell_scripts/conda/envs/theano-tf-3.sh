@@ -26,6 +26,6 @@ fi
 
 . activate "${ENV_NAME}"
 
-install_theano_tf 3.5
+install_theano_tf 3.6
 
 echo 'done'
