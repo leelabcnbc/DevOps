@@ -16,7 +16,7 @@ function install_theano_tf {
     if [ "$1" == "2.7" ]; then
         pip install /data2/leelab/software/tensorflow/gpu/py27/tensorflow-1.0.1-cp27-cp27mu-linux_x86_64.whl
     elif [ "$1" == "3.6" ]; then
-        pip install /data2/leelab/software/tensorflow/gpu/py36/tensorflow-1.1.0-cp36-cp36m-linux_x86_64.whl
+        pip install /data2/leelab/software/tensorflow/gpu/py36/tensorflow-1.2.0rc1-cp36-cp36m-linux_x86_64.whl
     fi
     # install cudnn v5
     ${DIR_LOCAL}/../../cuda/install_cudnn_v5.sh
