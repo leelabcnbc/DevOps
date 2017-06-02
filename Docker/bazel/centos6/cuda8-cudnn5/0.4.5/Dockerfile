@@ -9,7 +9,7 @@ MAINTAINER Yimeng Zhang <zym1010@gmail.com>
 # install relevant software to build tensorflow and bazel.
 RUN echo "===> Add relevant software..."  && \
     yum -y install centos-release-scl && \
-    yum -y install java-1.8.0-openjdk-devel devtoolset-3-toolchain zip unzip zlib zlib-devel git && \
+    yum -y install java-1.8.0-openjdk-devel devtoolset-3-toolchain zip unzip zlib zlib-devel git patch && \
     yum clean all
 
 COPY CROSSTOOL /tmp/CROSSTOOL
