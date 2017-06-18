@@ -42,10 +42,10 @@ toolchain {
   target_system_name: "local"
   toolchain_identifier: "local_linux"
 
-  tool_path { name: "ar" path: "/usr/bin/ar" }
-  tool_path { name: "compat-ld" path: "/usr/bin/ld" }
-  tool_path { name: "cpp" path: "/usr/bin/cpp" }
-  tool_path { name: "dwp" path: "/usr/bin/dwp" }
+  tool_path { name: "ar" path: "/opt/rh/devtoolset-3/root/usr/bin/ar" }
+  tool_path { name: "compat-ld" path: "/opt/rh/devtoolset-3/root/usr/bin/ld" }
+  tool_path { name: "cpp" path: "/opt/rh/devtoolset-3/root/usr/bin/cpp" }
+  tool_path { name: "dwp" path: "/opt/rh/devtoolset-3/root/usr/bin/dwp" }
   # As part of the TensorFlow release, we place some cuda-related compilation
   # files in @local_config_cuda//crosstool/clang/bin, and this relative
   # path, combined with the rest of our Bazel configuration causes our
@@ -54,23 +54,25 @@ toolchain {
   # Use "-std=c++11" for nvcc. For consistency, force both the host compiler
   # and the device compiler to use "-std=c++11".
   cxx_flag: "-std=c++11"
+  # hack to always have math library.
   linker_flag: "-Wl,-no-as-needed"
   linker_flag: "-lstdc++"
-  linker_flag: "-B/usr/bin/"
+  linker_flag: "-lm"
+  linker_flag: "-B/opt/rh/devtoolset-3/root/usr/bin"
 
 %{host_compiler_includes}
-  tool_path { name: "gcov" path: "/usr/bin/gcov" }
+  tool_path { name: "gcov" path: "/opt/rh/devtoolset-3/root/usr/bin/gcov" }
 
   # C(++) compiles invoke the compiler (as that is the one knowing where
   # to find libraries), but we provide LD so other rules can invoke the linker.
-  tool_path { name: "ld" path: "/usr/bin/ld" }
+  tool_path { name: "ld" path: "/opt/rh/devtoolset-3/root/usr/bin/ld" }
 
-  tool_path { name: "nm" path: "/usr/bin/nm" }
-  tool_path { name: "objcopy" path: "/usr/bin/objcopy" }
+  tool_path { name: "nm" path: "/opt/rh/devtoolset-3/root/usr/bin/nm" }
+  tool_path { name: "objcopy" path: "/opt/rh/devtoolset-3/root/usr/bin/objcopy" }
   objcopy_embed_flag: "-I"
   objcopy_embed_flag: "binary"
-  tool_path { name: "objdump" path: "/usr/bin/objdump" }
-  tool_path { name: "strip" path: "/usr/bin/strip" }
+  tool_path { name: "objdump" path: "/opt/rh/devtoolset-3/root/usr/bin/objdump" }
+  tool_path { name: "strip" path: "/opt/rh/devtoolset-3/root/usr/bin/strip" }
 
   # Anticipated future default.
   unfiltered_cxx_flag: "-no-canonical-prefixes"
