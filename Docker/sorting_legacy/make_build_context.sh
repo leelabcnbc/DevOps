@@ -21,8 +21,7 @@ CURRENT_DIR=$(pwd)
 # go to root of the repo, from http://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command.
 ROOT_DIR=$(git rev-parse --show-toplevel)
 cd "${ROOT_DIR}"
-# TODO: I should change this HEAD stuff later on.
-git archive --format=tar.gz HEAD > /tmp/repo.tar.gz
+git archive --format=tar.gz fcd5d9d87bad48897436ea743a3b66ef502dff4f > /tmp/repo.tar.gz
 # I put it first to tmp to solve the case where EXPORT_DIR is relative.
 cd "${CURRENT_DIR}"
 mv /tmp/repo.tar.gz "${EXPORT_DIR}/repo.tar.gz"
