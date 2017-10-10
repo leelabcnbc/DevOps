@@ -21,7 +21,8 @@ CURRENT_DIR=$(pwd)
 # go to root of the repo, from http://stackoverflow.com/questions/957928/is-there-a-way-to-get-the-git-root-directory-in-one-command.
 ROOT_DIR=$(git rev-parse --show-toplevel)
 cd "${ROOT_DIR}"
-git archive --format=tar.gz 2390d26a94171d60185614e3d52dc5885d71de58 > /tmp/repo.tar.gz
+# TODO: I should change this HEAD stuff later on.
+git archive --format=tar.gz HEAD > /tmp/repo.tar.gz
 # I put it first to tmp to solve the case where EXPORT_DIR is relative.
 cd "${CURRENT_DIR}"
 mv /tmp/repo.tar.gz "${EXPORT_DIR}/repo.tar.gz"
@@ -33,10 +34,10 @@ cp sorting_legacy.yml "${EXPORT_DIR}"
 echo "copy matlab files."
 # copy MATLAB 2012b files. I assume that you are in the same directory as this shell file.
 mkdir "${EXPORT_DIR}/files"
-cp "${ROOT_DIR}"/ansible/roles/matlab/files/R2012b_UNIX.tar.gz "${EXPORT_DIR}/files"
-cp "${ROOT_DIR}"/ansible/roles/matlab/files/activate_R2012b.ini "${EXPORT_DIR}/files"
-cp "${ROOT_DIR}"/ansible/roles/matlab/files/installer_input_R2012b.txt "${EXPORT_DIR}/files"
-cp "${ROOT_DIR}"/ansible/roles/matlab/files/license_standalone_R2012b.dat "${EXPORT_DIR}/files"
+cp "${ROOT_DIR}"/ansible/roles/matlab/files/R2012b_UNIX_CMU.tar.gz "${EXPORT_DIR}/files"
+cp "${ROOT_DIR}"/ansible/roles/matlab/files/activate_R2012b_CMU.ini "${EXPORT_DIR}/files"
+cp "${ROOT_DIR}"/ansible/roles/matlab/files/installer_input_R2012b_CMU.txt "${EXPORT_DIR}/files"
+cp "${ROOT_DIR}"/ansible/roles/matlab/files/license_R2017a_CMU.dat "${EXPORT_DIR}/files"
 
 echo "copy VNC related files"
 cp vnc.sh password.txt "${EXPORT_DIR}"
