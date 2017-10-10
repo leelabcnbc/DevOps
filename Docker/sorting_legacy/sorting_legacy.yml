@@ -4,7 +4,7 @@
   roles:
     # install a MATLAB with minimal libraries to run the code.
     - role: matlab
-      matlab_version: R2012b
+      matlab_version: R2012b_CMU
       # SpikeSort and SAC only need MATLAB. Great!
       matlab_product_list: [ 'MATLAB' ]
 

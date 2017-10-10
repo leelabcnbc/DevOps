@@ -3,6 +3,14 @@
   stat:
     path: "/usr/local/MATLAB/{{ matlab_version }}"
   register: matlab_installed
+  when: (matlab_version == "R2012b") or (matlab_version == "R2014a")
+
+# hack for CMU version.
+- name: check if MATLAB is installed (1)
+  stat:
+    path: "/usr/local/MATLAB/R2012b"
+  register: matlab_installed
+  when: matlab_version == "R2012b_CMU"
 
 - name: check if MATLAB is installed (2)
   set_fact:
@@ -37,6 +45,17 @@
     matlab_activation_command: "cp /tmp/libmwservices.so /usr/local/MATLAB/R2014a/bin/glnxa64"
     matlab_installer_name: "R2014a_UNIX_original"
   when: matlab_version == "R2014a"
+
+- name: set list of license / crack files to copy for R2012b CMU.
+  set_fact:
+    # the license file is actually from R2017a installer from CMU website.
+    matlab_filelist_src: [ "activate_R2012b_CMU.ini", "installer_input_R2012b_CMU.txt", "license_R2017a_CMU.dat" ]
+    matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license.dat" ]
+    matlab_hacking_command_list: [] # no hacking
+    # somehow standard activation won't work... and simple hacking works.
+    matlab_activation_command: "mkdir /usr/local/MATLAB/R2012b/licenses && cp /tmp/license.dat /usr/local/MATLAB/R2012b/licenses/network.lic && chmod 0755 /usr/local/MATLAB/R2012b/licenses/network.lic"
+    matlab_installer_name: "R2012b_UNIX_CMU"
+  when: matlab_version == "R2012b_CMU"
 
 - block:  # these must finish all together in one shot.
   - name: copy all related files.
@@ -91,6 +110,12 @@
   - name: activate matlab
     command: "{{ matlab_activation_command }}"
     become: True
+    when: matlab_version != "R2012b_CMU"
+
+  - name: activate matlab (for CMU version)
+    shell: "{{ matlab_activation_command }}"
+    become: True
+    when: matlab_version == "R2012b_CMU"
 
   - name: remove all related files.
     file:
@@ -104,3 +129,10 @@
       path: "/usr/local/MATLAB/{{ matlab_version }}"
       state: absent
     become: True
+    when: (matlab_version == "R2012b") or (matlab_version == "R2014a")
+  - name: remove partially installed dir
+    file:
+      path: "/usr/local/MATLAB/R2012b"
+      state: absent
+    become: True
+    when: matlab_version == "R2012b_CMU"

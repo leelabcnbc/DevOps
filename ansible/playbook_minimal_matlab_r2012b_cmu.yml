@@ -1,0 +1,8 @@
+---
+- name: install a minimal version of matlab r2012b, using CMU campus license.
+  hosts: all
+  roles:
+    - role: matlab
+      matlab_version: R2012b_CMU
+      matlab_product_list: [ 'MATLAB' ]
+
