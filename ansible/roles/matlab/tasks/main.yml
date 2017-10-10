@@ -52,7 +52,8 @@
     matlab_filelist_src: [ "activate_R2012b_CMU.ini", "installer_input_R2012b_CMU.txt", "license_R2017a_CMU.dat" ]
     matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license.dat" ]
     matlab_hacking_command_list: [] # no hacking
-    matlab_activation_command: "/usr/local/MATLAB/R2012b/bin/activate_matlab.sh -propertiesFile /tmp/activate.ini"
+    # somehow standard activation won't work... and simple hacking works.
+    matlab_activation_command: "mkdir /usr/local/MATLAB/R2012b/licenses && cp /tmp/license.dat /usr/local/MATLAB/R2012b/licenses/network.lic && chmod 0755 /usr/local/MATLAB/R2012b/licenses/network.lic"
     matlab_installer_name: "R2012b_UNIX_CMU"
   when: matlab_version == "R2012b_CMU"
 
@@ -109,6 +110,12 @@
   - name: activate matlab
     command: "{{ matlab_activation_command }}"
     become: True
+    when: matlab_version != "R2012b_CMU"
+
+  - name: activate matlab (for CMU version)
+    shell: "{{ matlab_activation_command }}"
+    become: True
+    when: matlab_version == "R2012b_CMU"
 
   - name: remove all related files.
     file:
