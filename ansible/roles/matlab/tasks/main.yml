@@ -49,6 +49,8 @@
 - name: set list of license / crack files to copy for R2012b CMU.
   set_fact:
     # the license file is actually from R2017a installer from CMU website.
+    # actually, license file and file installation key can both be from future versions.
+    # check <https://www.mathworks.com/matlabcentral/answers/91515-are-license-files-and-file-installation-keys-backwards-compatible>
     matlab_filelist_src: [ "activate_R2012b_CMU.ini", "installer_input_R2012b_CMU.txt", "license_R2017a_CMU.dat" ]
     matlab_filelist_dest: [ "activate.ini", "installer_input.txt", "license.dat" ]
     matlab_hacking_command_list: [] # no hacking
