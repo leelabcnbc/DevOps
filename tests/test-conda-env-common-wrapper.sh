@@ -19,7 +19,8 @@ SCIPY_TEST='import sys; import scipy; a=scipy.test(); sys.exit(not a.wasSuccessf
 PANDAS_TEST='import sys; import pandas; a=pandas.test(); sys.exit(not a.wasSuccessful())'
 H5PY_TEST='import sys; import h5py; a=h5py.run_tests(); sys.exit(not a.wasSuccessful())'
 # ugly but useful.
-TEST_STRING_LIST=("${NUMPY_TEST}" "${SCIPY_TEST}" "${PANDAS_TEST}" "${H5PY_TEST}")
+# I changed the order of stuffs, as pandas often have test errors. I wan to see others first.
+TEST_STRING_LIST=("${NUMPY_TEST}" "${SCIPY_TEST}" "${H5PY_TEST}" "${PANDAS_TEST}")
 for TEST_STRING in "${TEST_STRING_LIST[@]}"; do
     # I don't use /dev/null since some test may take over 10 min and it will get killed.
     python -c "${TEST_STRING}"

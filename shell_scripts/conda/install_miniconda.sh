@@ -32,7 +32,7 @@ wget http://repo.continuum.io/miniconda/${INSTALLER}
 # do silent installation. However, no PATH is changed.
 bash ${INSTALLER} -b -p ${INSTALL_PATH}
 # try latest one.
-${INSTALL_PATH}/bin/conda install -y conda=4.3.23
+${INSTALL_PATH}/bin/conda install -y conda=4.3.27
 # this tmux works on my account as well!
 ${INSTALL_PATH}/bin/conda install --yes --no-update-dependencies --channel conda-forge --show-channel-urls tmux=2.3
 
