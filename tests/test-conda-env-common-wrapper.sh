@@ -17,7 +17,8 @@ fi
 NUMPY_TEST='import sys; import numpy; a=numpy.test(); sys.exit(not a.wasSuccessful())'
 # this is for scipy 1.0.0 specifically.
 SCIPY_TEST='import sys; import scipy; a=scipy.test(); sys.exit(not a)'
-PANDAS_TEST='import sys; import pandas; a=pandas.test(); sys.exit(not a.wasSuccessful())'
+# for pandas 0.22.0.
+PANDAS_TEST='import pandas; pandas.test()'
 H5PY_TEST='import sys; import h5py; a=h5py.run_tests(); sys.exit(not a.wasSuccessful())'
 # ugly but useful.
 # I changed the order of stuffs, as pandas often have test errors. I wan to see others first.
