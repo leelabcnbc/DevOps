@@ -15,7 +15,8 @@ fi
 . activate ${ENV_NAME}
 # run the aggregate test script using python.
 NUMPY_TEST='import sys; import numpy; a=numpy.test(); sys.exit(not a.wasSuccessful())'
-SCIPY_TEST='import sys; import scipy; a=scipy.test(); sys.exit(not a.wasSuccessful())'
+# this is for scipy 1.0.0 specifically.
+SCIPY_TEST='import sys; import scipy; a=scipy.test(); sys.exit(not a)'
 PANDAS_TEST='import sys; import pandas; a=pandas.test(); sys.exit(not a.wasSuccessful())'
 H5PY_TEST='import sys; import h5py; a=h5py.run_tests(); sys.exit(not a.wasSuccessful())'
 # ugly but useful.
