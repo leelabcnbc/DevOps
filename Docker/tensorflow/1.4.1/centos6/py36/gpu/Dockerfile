@@ -14,6 +14,8 @@ COPY CROSSTOOL_nvcc.tpl /tmp/
 # workspace.bzl is for bazel version.
 # check https://github.com/tensorflow/tensorflow/issues/16654#issuecomment-362517428
 # I did a hack, as other ways seems to not work for 1.4.1
+# add --incompatible_load_argument_is_label=false for bazel
+# https://github.com/tensorflow/tensorflow/issues/15492
 RUN echo "===> install everything"  && \
     cd ~ && curl -k -L -O https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh && \
     bash ./Miniconda2-latest-Linux-x86_64.sh -b -f -p ~/conda && rm -rf Miniconda2-latest-Linux-x86_64.sh && \
@@ -21,7 +23,7 @@ RUN echo "===> install everything"  && \
     curl -k -L -O https://github.com/tensorflow/tensorflow/archive/v1.4.1.tar.gz && \
     tar -zxf v1.4.1.tar.gz && rm -rf v1.4.1.tar.gz && cd tensorflow-1.4.1 && \
     cp /tmp/CROSSTOOL_nvcc.tpl third_party/gpus/crosstool/CROSSTOOL_nvcc.tpl && ls -la third_party/gpus/crosstool && \
-    scl enable devtoolset-3 'export PYTHON_BIN_PATH=~/conda/envs/tf/bin/python PATH=~/conda/envs/tf/bin:~/bin:$PATH TF_NEED_CUDA=1 TF_CUDA_COMPUTE_CAPABILITIES="5.2,6.1" TF_NEED_JEMALLOC=0 TF_NEED_GCP=0 TF_NEED_HDFS=0 TF_NEED_S3=0 && yes "" | ./configure && ~/bin/bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --verbose_failures //tensorflow/tools/pip_package:build_pip_package' && \
+    scl enable devtoolset-3 'export PYTHON_BIN_PATH=~/conda/envs/tf/bin/python PATH=~/conda/envs/tf/bin:~/bin:$PATH TF_NEED_CUDA=1 TF_CUDA_COMPUTE_CAPABILITIES="5.2,6.1" TF_NEED_JEMALLOC=0 TF_NEED_GCP=0 TF_NEED_HDFS=0 TF_NEED_S3=0 && yes "" | ./configure && ~/bin/bazel build -c opt --config=cuda --incompatible_load_argument_is_label=false --spawn_strategy=standalone --genrule_strategy=standalone --verbose_failures //tensorflow/tools/pip_package:build_pip_package' && \
     scl enable devtoolset-3 'PATH=~/conda/envs/tf/bin:$PATH bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg' && \
     cd .. && rm -rf tensorflow-1.4.1 && ~/conda/bin/conda clean --yes --all && rm -rf ~/conda && rm -rf .cache
 
