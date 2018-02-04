@@ -23,37 +23,21 @@ def _get_env_var(repository_ctx, name):
   else:
     return None
 
-def _extract_version_number(bazel_version):
-  """Extracts the semantic version number from a version string
-
-  Args:
-    bazel_version: the version string that begins with the semantic version
-      e.g. "1.2.3rc1 abc1234" where "abc1234" is a commit hash.
-
-  Returns:
-    The semantic version string, like "1.2.3".
-  """
-  for i in range(len(bazel_version)):
-    c = bazel_version[i]
-    if not (c.isdigit() or c == "."):
-      return bazel_version[:i]
-  return bazel_version
 
 # Parse the bazel version string from `native.bazel_version`.
 def _parse_bazel_version(bazel_version):
-  """Parses a version string into a 3-tuple of ints
+  # Remove commit from version.
+  version = bazel_version.split(" ", 1)[0]
 
-  int tuples can be compared directly using binary operators (<, >).
+  # Split into (release, date) parts and only return the release
+  # as a tuple of integers.
+  parts = version.split("-", 1)
 
-  Args:
-    bazel_version: the Bazel version string
-
-  Returns:
-    An int 3-tuple of a (major, minor, patch) version.
-  """
-
-  version = _extract_version_number(bazel_version)
-  return tuple([int(n) for n in version.split(".")])
+  # Turn "release" into a tuple of strings
+  version_tuple = ()
+  for number in parts[0].split("."):
+    version_tuple += (str(number),)
+  return version_tuple
 
 
 # Check that a specific bazel version is being used.
@@ -159,7 +143,7 @@ def tf_workspace(path_prefix="", tf_repo_name=""):
   # We must check the bazel version before trying to parse any other BUILD
   # files, in case the parsing of those build files depends on the bazel
   # version we require here.
-  check_version("0.5.4")
+  check_version("0.0")
   cuda_configure(name="local_config_cuda")
   sycl_configure(name="local_config_sycl")
   python_configure(name="local_config_python")
@@ -423,20 +407,20 @@ def tf_workspace(path_prefix="", tf_repo_name=""):
   native.http_archive(
       name = "com_google_protobuf",
       urls = [
-          "http://mirror.bazel.build/github.com/google/protobuf/archive/b04e5cba356212e4e8c66c61bbe0c3a20537c5b9.tar.gz",
+          "http://mirror.bazel.build/github.com/google/protobuf/archive/0b059a3d8a8f8aa40dde7bea55edca4ec5dfea66.tar.gz",
       ],
-      sha256 = "e178a25c52efcb6b05988bdbeace4c0d3f2d2fe5b46696d1d9898875c3803d6a",
-      strip_prefix = "protobuf-b04e5cba356212e4e8c66c61bbe0c3a20537c5b9",
+      sha256 = "6d43b9d223ce09e5d4ce8b0060cb8a7513577a35a64c7e3dad10f0703bf3ad93",
+      strip_prefix = "protobuf-0b059a3d8a8f8aa40dde7bea55edca4ec5dfea66",
   )
 
   # TODO(gunan): Add github mirror back if/when sha256sum issues are resolved.
   native.http_archive(
       name = "com_google_protobuf_cc",
       urls = [
-          "http://mirror.bazel.build/github.com/google/protobuf/archive/b04e5cba356212e4e8c66c61bbe0c3a20537c5b9.tar.gz",
+          "http://mirror.bazel.build/github.com/google/protobuf/archive/0b059a3d8a8f8aa40dde7bea55edca4ec5dfea66.tar.gz",
       ],
-      sha256 = "e178a25c52efcb6b05988bdbeace4c0d3f2d2fe5b46696d1d9898875c3803d6a",
-      strip_prefix = "protobuf-b04e5cba356212e4e8c66c61bbe0c3a20537c5b9",
+      sha256 = "6d43b9d223ce09e5d4ce8b0060cb8a7513577a35a64c7e3dad10f0703bf3ad93",
+      strip_prefix = "protobuf-0b059a3d8a8f8aa40dde7bea55edca4ec5dfea66",
   )
 
   native.http_archive(
