@@ -14,11 +14,17 @@ COPY CROSSTOOL_nvcc.tpl /tmp/
 # workspace.bzl is for bazel version.
 # check https://github.com/tensorflow/tensorflow/issues/16654#issuecomment-362517428
 # I did a hack, as other ways seems to not work for 1.4.1
-# add --incompatible_load_argument_is_label=false for bazel
+# add --incompatible_load_argument_is_label=false for bazel >= 0.9
 # https://github.com/tensorflow/tensorflow/issues/15492
 # add --action_env=LD_LIBRARY_PATH=/usr/local/cuda/lib64 for bazel
 # https://github.com/tensorflow/tensorflow/issues/13243
 # https://stackoverflow.com/questions/47080760/tensorflow-fails-to-compile/47295278#47295278
+# https://github.com/tensorflow/tensorflow/issues/15142
+
+# build with SSE/SSE2/AVX/AVX2/FMA
+# https://stackoverflow.com/questions/43350224/building-tensorflow-v1-x-with-sse4-1-sse4-2-and-avx-instructions
+# https://github.com/yaroslavvb/tensorflow-community-wheels/issues/15
+# copt just means adding flags to gcc, cxxopt means adding flags to g++
 
 RUN echo "===> install everything"  && \
     cd ~ && curl -k -L -O https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh && \
@@ -28,7 +34,7 @@ RUN echo "===> install everything"  && \
     tar -zxf v1.4.1.tar.gz && rm -rf v1.4.1.tar.gz && cd tensorflow-1.4.1 && \
     cp /tmp/CROSSTOOL_nvcc.tpl third_party/gpus/crosstool/CROSSTOOL_nvcc.tpl && ls -la third_party/gpus/crosstool && \
     cp /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
-    scl enable devtoolset-3 'export PYTHON_BIN_PATH=~/conda/envs/tf/bin/python PATH=~/conda/envs/tf/bin:~/bin:$PATH LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64/stubs" TF_NEED_CUDA=1 TF_CUDA_COMPUTE_CAPABILITIES="5.2,6.1" TF_NEED_JEMALLOC=0 TF_NEED_GCP=0 TF_NEED_HDFS=0 TF_NEED_S3=0 && yes "" | ./configure && ~/bin/bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --verbose_failures //tensorflow/tools/pip_package:build_pip_package' && \
+    scl enable devtoolset-3 'export PYTHON_BIN_PATH=~/conda/envs/tf/bin/python PATH=~/conda/envs/tf/bin:~/bin:$PATH TF_NEED_CUDA=1 TF_CUDA_COMPUTE_CAPABILITIES="5.2,6.1" TF_NEED_JEMALLOC=0 TF_NEED_GCP=0 TF_NEED_HDFS=0 TF_NEED_S3=0 && yes "" | ./configure && ~/bin/bazel build -c opt --config=cuda --copt=-mavx --copt=-mavx2 --copt=-mfma --copt=-msse4.1 --copt=-msse4.2 --spawn_strategy=standalone --genrule_strategy=standalone --verbose_failures //tensorflow/tools/pip_package:build_pip_package' && \
     scl enable devtoolset-3 'PATH=~/conda/envs/tf/bin:$PATH bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg' && \
     cd .. && rm -rf tensorflow-1.4.1 && ~/conda/bin/conda clean --yes --all && rm -rf ~/conda && rm -rf .cache
 
