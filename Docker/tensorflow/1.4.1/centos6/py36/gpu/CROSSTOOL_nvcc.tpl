@@ -62,6 +62,7 @@ toolchain {
   # hack for linker bug.
   # https://github.com/tensorflow/tensorflow/issues/13243
   linker_flag: "-Wl,-rpath-link,/usr/local/cuda/lib64"
+  linker_flag: "-Wl,-rpath-link,/usr/local/cuda/lib64/stubs"
   linker_flag: "-Wl,-rpath-link,/usr/local/cuda/extras/CUPTI/lib64"
 
 %{host_compiler_includes}
