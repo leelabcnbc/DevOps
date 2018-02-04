@@ -6,10 +6,12 @@ FROM leelabcnbc/bazel:0.10.0-cuda8.0-cudnn6-centos6
 MAINTAINER Yimeng Zhang <zym1010@gmail.com>
 COPY CROSSTOOL_nvcc.tpl /tmp/
 COPY WORKSPACE /tmp/
+COPY workspace.bzl /tmp/
 # check <https://github.com/tensorflow/tensorflow/issues/5374#issuecomment-258500983> to see how to properly to no user interaction
 # TF_NEED_JEMALLOC=0. see <http://biophysics.med.jhmi.edu/~yliu120/tensorflow.html>
 #
-# WORKSPACE is for bazel check https://github.com/tensorflow/tensorflow/issues/16654
+# WORKSPACE and workspace.bzl is for bazel
+# check https://github.com/tensorflow/tensorflow/issues/16654#issuecomment-362517428
 #
 RUN echo "===> install everything"  && \
     cd ~ && curl -k -L -O https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh && \
@@ -19,6 +21,7 @@ RUN echo "===> install everything"  && \
     tar -zxf v1.4.1.tar.gz && rm -rf v1.4.1.tar.gz && cd tensorflow-1.4.1 && \
     cp /tmp/CROSSTOOL_nvcc.tpl third_party/gpus/crosstool/CROSSTOOL_nvcc.tpl && ls -la third_party/gpus/crosstool && \
     cp /tmp/WORKSPACE . && ls -la . && \
+    cp /tmp/workspace.bzl tensorflow && ls -la tensorflow && \
     scl enable devtoolset-3 'export PYTHON_BIN_PATH=~/conda/envs/tf/bin/python PATH=~/conda/envs/tf/bin:~/bin:$PATH TF_NEED_CUDA=1 TF_CUDA_COMPUTE_CAPABILITIES="5.2,6.1" TF_NEED_JEMALLOC=0 && yes "" | ./configure && ~/bin/bazel build -c opt --config=cuda --spawn_strategy=standalone --genrule_strategy=standalone --verbose_failures //tensorflow/tools/pip_package:build_pip_package' && \
     scl enable devtoolset-3 'PATH=~/conda/envs/tf/bin:$PATH bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg' && \
     cd .. && rm -rf tensorflow-1.4.1 && ~/conda/bin/conda clean --yes --all && rm -rf ~/conda && rm -rf .cache
