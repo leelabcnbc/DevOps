@@ -23,12 +23,16 @@ for bazel, `cd` to relevant directory containing `Dockerfile`, and then run comm
 
 ~~~
 sudo docker build -t leelabcnbc/bazel:0.4.4-cuda8.0-cudnn5-centos6 .
+# finally, push it to dockerhub
+sudo docker push leelabcnbc/bazel:0.4.4-cuda8.0-cudnn5-centos6
 ~~~
 
 for TF, run command like 
 
 ~~~
 sudo docker build -t leelabcnbc/tensorflow:0.12.1-centos6-py27-gpu .
+# finally, push it to dockerhub
+sudo docker push leelabcnbc/tensorflow:0.12.1-centos6-py27-gpu
 ~~~
 
 then run command like 
