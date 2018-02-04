@@ -11,7 +11,7 @@ MAINTAINER Yimeng Zhang <zym1010@gmail.com>
 # https://github.com/bazelbuild/bazel/issues/4483
 RUN echo "===> Add relevant software..."  && \
     yum -y install centos-release-scl && \
-    yum -y install java-1.8.0-openjdk-devel-1.8.0.151 devtoolset-3-toolchain zip unzip zlib zlib-devel git patch && \
+    yum -y install java-1.8.0-openjdk-devel-1.8.0.151 java-1.8.0-openjdk-headless-1.8.0.151 devtoolset-3-toolchain zip unzip zlib zlib-devel git patch && \
     yum clean all
 
 COPY CROSSTOOL /tmp/CROSSTOOL
