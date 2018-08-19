@@ -1,5 +1,7 @@
-# pushed as leelabcnbc/leelab-py3:20180816
-FROM continuumio/miniconda3:4.5.4
+#  $ docker build . -t leelabcnbc/leelab-py3:20180819
+#  $ docker run --rm -it leelabcnbc/leelab-py3:20180819
+#  $ docker push leelabcnbc/leelab-py3:20180819
+FROM leelabcnbc/miniconda3:4.5.10
 # I specify the version of numpy here, as they need to be installed
 # with conda-forge's pyspark. later on may be conda and pip specs should be
 # unified somehow.
