@@ -1,6 +1,6 @@
-#  $ docker build . -t leelabcnbc/leelab-py3:20180819
-#  $ docker run --rm -it leelabcnbc/leelab-py3:20180819
-#  $ docker push leelabcnbc/leelab-py3:20180819
+#  $ docker build . -t leelabcnbc/leelab-py3:20180827
+#  $ docker run --rm -it leelabcnbc/leelab-py3:20180827
+#  $ docker push leelabcnbc/leelab-py3:20180827
 FROM leelabcnbc/miniconda3:4.5.10
 # I specify the version of numpy here, as they need to be installed
 # with conda-forge's pyspark. later on may be conda and pip specs should be
@@ -13,3 +13,16 @@ RUN conda create -n leelab -c conda-forge -y python=3.6.6 \
     # other ones in my "default" scripts
     notebook=5.6.0 h5py=2.8.0  git=2.18.0 \
     && conda clean --all
+
+# set shell stuff
+# https://gitlab.com/gitlab-org/gitlab-runner/issues/82#note_76248350
+# is fine, but I think it's easist to set PATH,
+# as the conda in `leelab` environment actually doesn't need
+# those CONDA related environment variables to work;
+ENV PATH /opt/conda/envs/leelab/bin:$PATH
+# set bashrc
+# this part won't get executed if you don't run the container using
+# `-it`.
+# but it's useful for interactive sessions, where you may want to
+# play with conda.
+RUN echo "conda activate leelab" >> ~/.bashrc
