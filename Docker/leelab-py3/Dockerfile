@@ -1,17 +1,14 @@
-#  $ docker build . -t leelabcnbc/leelab-py3:20180827
-#  $ docker run --rm -it leelabcnbc/leelab-py3:20180827
-#  $ docker push leelabcnbc/leelab-py3:20180827
-FROM leelabcnbc/miniconda3:4.5.10
-# I specify the version of numpy here, as they need to be installed
-# with conda-forge's pyspark. later on may be conda and pip specs should be
-# unified somehow.
-RUN conda create -n leelab -c conda-forge -y python=3.6.6 \
-    && conda install -n leelab -c conda-forge -y \
-    # four big ones; openblas needs 0.2.20 for numpy
-    # as of 20180816, numpy 1.15 is still new and buggy.
-    numpy=1.14.5 scipy=1.1.0 matplotlib=2.2.3 pandas=0.23.4 openblas=0.2.20 \
+#  $ docker build . -t leelabcnbc/leelab-py3:20190116
+#  $ docker run --rm -it leelabcnbc/leelab-py3:20190116
+#  $ docker push leelabcnbc/leelab-py3:20190116
+FROM continuumio/miniconda3:4.5.12
+
+# python 3.6.7 is the latest 3.6.x maintained by conda-forge
+RUN conda create -n leelab -c conda-forge -y python=3.6.7 \
+    # four big ones. `blas=*=openblas` from <https://conda-forge.org/docs/blas.html#openblas-mkl-dance>
+    numpy=1.15.4 scipy=1.2.0 matplotlib=3.0.2 pandas=0.23.4 blas=*=openblas \
     # other ones in my "default" scripts
-    notebook=5.6.0 h5py=2.8.0  git=2.18.0 \
+    notebook=5.7.4 h5py=2.9.0  git=2.20.1 \
     && conda clean --all
 
 # set shell stuff
@@ -22,7 +19,8 @@ RUN conda create -n leelab -c conda-forge -y python=3.6.6 \
 ENV PATH /opt/conda/envs/leelab/bin:$PATH
 # set bashrc
 # this part won't get executed if you don't run the container using
-# `-it`.
+# `-it`, or if you run the container using Singularity.
 # but it's useful for interactive sessions, where you may want to
 # play with conda.
+# also, if you don't do this, then when you do -it, things will get messed up.
 RUN echo "conda activate leelab" >> ~/.bashrc
