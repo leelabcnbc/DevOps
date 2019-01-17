@@ -10,12 +10,13 @@ RUN conda create -n leelab -c conda-forge -y python==3.6.7 \
     # the `py36_blas_openblash1522bff_1000` part is to make sure everything is built with gcc7.
     # otherwise, later on rpy2 will upgrade libgcc-ng by force, somehow even if
     # I specify --no-update-dependencies
-
     # MAYBE bug: when I only specify numpy with that long build string,
     # and using `=` not `==`, `conda install` breaks.
     # if everything is `==`, then it works.
-
-    numpy==1.15.4=py36_blas_openblash1522bff_1000 scipy==1.2.0 matplotlib==3.0.2 pandas==0.23.4 \
+    # ====================================
+    # well the above things happened in afternoon 2009/1/16 (ET)
+    # around 7 PM, these disappeared.
+    numpy==1.15.4 scipy==1.2.0 matplotlib==3.0.2 pandas==0.23.4 \
     # other ones in my "default" scripts
     notebook==5.7.4 h5py==2.9.0 git==2.20.1 \
     && conda clean --all
